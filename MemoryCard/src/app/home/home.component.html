@@ -1,11 +1,23 @@
 <router-outlet></router-outlet>
 
 <div class="home-container">
-  <div class="auth-links">
-    <a href="/login" class="auth-link">Connexion </a>
-    <a href="/register" class="auth-link"> Enregistrement</a>
+  <!-- Afficher Connexion et Enregistrement si non connecté, ou Profil et Déconnexion si connecté -->
+  <div class="auth-links" *ngIf="!isLoggedIn(); else loggedInTemplate">
+    <a href="/login" class="auth-link">Connexion</a>
+    <a href="/register" class="auth-link">Enregistrement</a>
   </div>
 
+  <!-- Template pour l'utilisateur connecté -->
+  <ng-template #loggedInTemplate>
+    <div class="auth-links">
+      <a href="/profile" class="auth-link">
+        <i class="fas fa-user"></i> Profil
+      </a>
+      <a href="logout()" class="auth-link">Déconnexion</a>
+    </div>
+  </ng-template>
+
+  <!-- Rest of your filters and folders -->
   <aside class="filters-added">
     <h3>Filtres ajoutés</h3>
     <ul>
@@ -50,5 +62,6 @@
       </div>
     </div>
   </div>
-    <app-popup-folder> </app-popup-folder>
+
+  <app-popup-folder></app-popup-folder>
 </div>

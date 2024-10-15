@@ -37,7 +37,10 @@ export class UserService {
     localStorage.setItem(this.userKey, JSON.stringify(user));
   }
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return localStorage.getItem(this.tokenKey); // Assurez-vous que `this.tokenKey` est correctement défini
+    }
+    return null; // Ou une autre valeur par défaut
   }
 
   // Méthode pour obtenir l'utilisateur
