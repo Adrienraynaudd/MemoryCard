@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { VisibilityPopupService } from '../services/visibilityPopup/visibility-popup.service';
+import { PopupFolderComponent } from '../popup-folder/popup-folder.component';
+
 
 @Component({
   selector: 'app-home',
@@ -11,7 +14,8 @@ import { FormsModule } from '@angular/forms';
     RouterLink,
     RouterLinkActive,
     CommonModule,
-    FormsModule
+    FormsModule,
+    PopupFolderComponent
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
@@ -20,6 +24,8 @@ export class HomeComponent {
   appliedFilters: string[] = [];
   filterValue: string = '';
   selectedFilterType: string = 'Tag';
+
+  constructor(private VisibilityPopupService: VisibilityPopupService) { }
 
   folders = [
     { name: 'Dossier 1', tags: ['Tag1', 'Tag2', 'Tag3'], isLiked: false },
@@ -75,4 +81,16 @@ export class HomeComponent {
   getHeartColor(isLiked: boolean): string {
     return isLiked ? 'red' : 'gray';
   }
+  setVisibility(value: boolean) {
+    this.VisibilityPopupService.setVisibility();  
+    console.log('VisibilityPopupService:', value);
+  }
+
+  getVisibility() {
+    console.log('VisibilityPopupService:', this.VisibilityPopupService.getVisibility());
+    return this.VisibilityPopupService.getVisibility();  
+  }
+
+
+
 }
