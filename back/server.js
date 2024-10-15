@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 
 
 const userRoutes = require('./Routes/UserRoutes');
+const cardRoutes = require('./Routes/CardRoutes');
 
 const app = express();
 
@@ -27,7 +28,6 @@ mongoose.connect(`mongodb+srv://${username}:${password}@cluster0.muatb.mongodb.n
 
 app.use(bodyParser.json());
 
-
 app.use('/api/users', userRoutes);
 
 app.get('/', (req, res) => {
@@ -35,3 +35,4 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/users', userRoutes);
+app.use('/api/cards', cardRoutes);
