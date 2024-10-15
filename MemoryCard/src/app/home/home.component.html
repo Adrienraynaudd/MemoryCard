@@ -1,0 +1,53 @@
+<router-outlet></router-outlet>
+
+<div class="home-container">
+  <div class="auth-links">
+    <a href="/login" class="auth-link">Connexion </a>
+    <a href="/register" class="auth-link"> Enregistrement</a>
+  </div>
+
+  <aside class="filters-added">
+    <h3>Filtres ajoutés</h3>
+    <ul>
+      <li *ngFor="let filter of appliedFilters; let i = index">
+        {{ filter }}
+        <button class="delete-filter-button" (click)="removeFilter(i)">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </li>
+    </ul>
+  </aside>
+
+  <div class="filters-section">
+    <div class="filters">
+      <input type="text" placeholder="Rechercher..." class="filter-input" [(ngModel)]="filterValue" />
+
+      <select class="filter-select" [(ngModel)]="selectedFilterType">
+        <option value="Tag">Tag</option>
+        <option value="Folder Name">Folder</option>
+      </select>
+
+      <button class="add-filter-button" (click)="addFilter()">Add Filter</button>
+    </div>
+
+    <div class="folder-list">
+      <div class="folder-item" *ngFor="let folder of filteredFolders">
+        <div class="folder-info">
+          <h3 class="folder-name">{{ folder.name }}</h3>
+          <div class="tags">
+            <span class="tag" *ngFor="let tag of folder.tags">{{ tag }}</span>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="like-button" (click)="likeFolder(folder)">
+            <i class="fas fa-heart" [style.color]="getHeartColor(folder.isLiked)"></i>
+          </button>
+          <button class="delete-button" (click)="deleteFolder(folder)">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
