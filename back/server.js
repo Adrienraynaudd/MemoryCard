@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 
@@ -7,7 +8,7 @@ const bodyParser = require('body-parser');
 const userRoutes = require('./Routes/UserRoutes');
 
 const app = express();
-
+app.use(cors());
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Serveur en cours d'exécution sur le port ${PORT}`);
