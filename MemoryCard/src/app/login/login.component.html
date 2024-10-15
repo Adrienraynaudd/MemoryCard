@@ -1,35 +1,68 @@
 <router-outlet></router-outlet>
 <div class="login-container">
+  <span class="login">
     <h2>Connexion</h2>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <label for="username">Nom d'utilisateur:</label>
-        <input type="text" id="username" formControlName="username" />
-        <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          placeholder="Nom d'utilisateur:"
+        />
+        <div
+          *ngIf="
+            loginForm.get('username')?.invalid &&
+            loginForm.get('username')?.touched
+          "
+        >
           <small class="error">Le nom d'utilisateur est requis.</small>
         </div>
       </div>
-  
+
       <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" formControlName="email" />
-        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          placeholder="Email"
+        />
+        <div
+          *ngIf="
+            loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+          "
+        >
           <small class="error">Un email valide est requis.</small>
         </div>
       </div>
-  
+
       <div class="form-group">
-        <label for="password">Mot de passe:</label>
-        <input type="password" id="password" formControlName="password" />
-        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          placeholder="Mot de passe:"
+        />
+        <div
+          *ngIf="
+            loginForm.get('password')?.invalid &&
+            loginForm.get('password')?.touched
+          "
+        >
           <small class="error">Le mot de passe est requis.</small>
         </div>
       </div>
-  
-      <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Se connecter</button>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="loginForm.invalid"
+      >
+        Se connecter
+      </button>
       <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
     </form>
-  
+
     <p>Pas encore inscrit ? <a href="/register">Créer un compte</a></p>
-  </div>
-  
+  </span>
+</div>
