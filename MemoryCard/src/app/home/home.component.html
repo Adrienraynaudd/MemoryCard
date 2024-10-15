@@ -1,18 +1,22 @@
 <router-outlet></router-outlet>
 
 <div class="home-container">
-<aside class="filters-added">
-  <h3>Filtres ajoutés</h3>
-  <ul>
-    <li *ngFor="let filter of appliedFilters; let i = index">
-      {{ filter }}
-      <button class="delete-filter-button" (click)="removeFilter(i)">
-        <i class="fas fa-trash-alt"></i>
-      </button>
-    </li>
-  </ul>
-</aside>
+  <div class="auth-links">
+    <a href="/login" class="auth-link">Connexion </a>
+    <a href="/register" class="auth-link"> Enregistrement</a>
+  </div>
 
+  <aside class="filters-added">
+    <h3>Filtres ajoutés</h3>
+    <ul>
+      <li *ngFor="let filter of appliedFilters; let i = index">
+        {{ filter }}
+        <button class="delete-filter-button" (click)="removeFilter(i)">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </li>
+    </ul>
+  </aside>
 
   <div class="filters-section">
     <div class="filters">
