@@ -1,0 +1,108 @@
+.home-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative; /* Ajouté pour permettre un positionnement absolu de l'image */
+  }
+  
+  /* Positionnement des filtres */
+  .filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .filter-input {
+    width: 30%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  /* Image de profil positionnée en haut à droite */
+  .profile-section {
+    position: absolute;
+    top: 20px; /* Distance du haut */
+    right: 20px; /* Distance de la droite */
+  }
+  
+  .profile-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  
+  .profile-image:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Liste des dossiers */
+  .folder-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .folder-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    background-color: #fafafa;
+  }
+  
+  .folder-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .folder-name {
+    font-size: 1.2em;
+    margin: 0;
+  }
+  
+  .tags {
+    margin-top: 5px;
+  }
+  
+  .tag {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 15px;
+    margin-right: 5px;
+    font-size: 0.9em;
+  }
+  
+  /* Actions pour aimer et supprimer */
+  .actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .like-button, .delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5em;
+  }
+  
+  .like-button .fa-heart {
+    color: #e74c3c;
+  }
+  
+  .delete-button .fa-trash-alt {
+    color: #888;
+  }
+  
+  .like-button:hover .fa-heart,
+  .delete-button:hover .fa-trash-alt {
+    transform: scale(1.2);
+  }
+  
