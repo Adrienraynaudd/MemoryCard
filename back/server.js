@@ -2,13 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const compression = require('compression');
 const bodyParser = require('body-parser');
-
+const cors = require('cors');
 
 const userRoutes = require('./Routes/UserRoutes');
 const cardRoutes = require('./Routes/CardRoutes');
 const folderRoutes = require('./Routes/FolderRoutes');
 
 const app = express();
+app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
