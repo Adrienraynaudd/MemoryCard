@@ -3,12 +3,13 @@ const Card = require('../Models/Card');
 
 exports.createCard = async (req, res) => {
   try {
-    const { question, response, userId } = req.body;
+    const { question, response, userId, folderId} = req.body;
 
     const newCard = await Card.create({
       question: question,
       response: response,
       userId: userId,
+      folderId: folderId,
     });
     res.status(201).json({ card: newCard });
   } catch (error) {
@@ -85,25 +86,3 @@ exports.deleteCardById = async (req, res) => {
       res.status(500).json({ message: 'Erreur lors de la suppression d\'une carte' });
   }
 };
-
-  exports.getUserByEmailAndPassword = async (req, res) => {
-    try {
-      const { email, password } = req.body;
-
-      const user = await Card.findOne({ email });
-      if (!user) {
-        return res.status(404).json({ message: 'Utilisateur non trouvé' });
-      }
-      const passwordMatch = await bcrypt.compare(password, user.password);
-  
-      if (!passwordMatch) {
-        return res.status(401).json({ message: 'Mot de passe incorrect' });
-      }
-      const token = jwt.sign({ userId: user.id, username: user.username }, 'TjPJIv2wnVUdflrb', { expiresIn: '1h' });
-  
-      res.status(200).json({ user, token });
-    } catch (error) {
-      console.error('Erreur lors de l\'authentification de l\'utilisateur :', error);
-      res.status(500).json({ message: 'Erreur lors de l\'authentification de l\'utilisateur' });
-    }
-  };

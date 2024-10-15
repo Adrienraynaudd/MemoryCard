@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 
 const userRoutes = require('./Routes/UserRoutes');
 const cardRoutes = require('./Routes/CardRoutes');
+const folderRoutes = require('./Routes/FolderRoutes');
 
 const app = express();
 
@@ -36,3 +37,4 @@ app.get('/', (req, res) => {
 
 app.use('/api/users', userRoutes);
 app.use('/api/cards', cardRoutes);
+app.use('/api/folders', folderRoutes);
