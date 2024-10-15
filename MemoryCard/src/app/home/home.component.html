@@ -17,7 +17,7 @@
 
     <!-- Liste des dossiers -->
     <div class="folder-list">
-      <div class="folder-item" *ngFor="let folder of folders">
+      <div class="folder-item" *ngFor="let folder of folders" (click)="setVisibility(!getVisibility())">
         <div class="folder-info">
           <h3 class="folder-name">{{ folder.name }}</h3>
           <div class="tags">
@@ -36,5 +36,6 @@
         </div>
       </div>
     </div>
+    <app-popup-folder> </app-popup-folder>
   </div>
   
