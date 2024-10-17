@@ -3,11 +3,10 @@ const { v4: uuidv4 } = require('uuid');
 
 exports.createFolder = async (req, res) => {
   try {
-    const { name, tags, userId } = req.body;
-
+    const { title, tags, userId } = req.body;
     const newFolder = await Folder.create({
       id: uuidv4(),
-      name: name,
+      title: title,
       tags: tags,
       userId: userId,
     });
@@ -45,9 +44,9 @@ exports.getFolderById = async (req, res) => {
 exports.getFoldersByUserId = async (req, res) => {
   try {
     const userId = req.params.id;
-    const folders = await Folder.find({ 'userId.userId': userId });
+    const folders = await Folder.find({ userId: userId });
     if (!folders || folders.length === 0) {
-      return res.status(404).json({ message: 'Aucun dossier trouvé pour cet utilisateur' });
+      return res.status(200).json({ message: 'Aucun dossier trouvé pour cet utilisateur' });
     }
     res.status(200).json(folders);
   } catch (error) {

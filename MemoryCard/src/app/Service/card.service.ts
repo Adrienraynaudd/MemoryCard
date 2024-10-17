@@ -12,34 +12,33 @@ export class CardService {
     constructor(private http: HttpClient) {}
     private getToken(): string | null {
         if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-            return localStorage.getItem('token');
+            return localStorage.getItem('authToken');
         }
         return null;
     }
     
     getCards(): Observable<Card[]> {
-        const headers = new HttpHeaders().set('Authorization', `${this.getToken()}`);
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
         return this.http.get<Card[]>(this.apiUrl, { headers });
     }
-  
 
     getCardById(id: number): Observable<Card> {
-        const headers = new HttpHeaders().set('Authorization', `${this.getToken()}`);
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
         return this.http.get<Card>(`${this.apiUrl}/${id}`, { headers });
     }
 
     createCard(card: Card): Observable<Card> {
-        const headers = new HttpHeaders().set('Authorization', `${this.getToken()}`);
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
         return this.http.post<Card>(`${this.apiUrl}/`, card, { headers });
     }
 
     updateCard(id: number, card: Card): Observable<Card> {
-        const headers = new HttpHeaders().set('Authorization', `${this.getToken()}`);
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
         return this.http.put<Card>(`${this.apiUrl}/${id}`, card, { headers });
     }
 
     deleteCard(id: number): Observable<void> {
-        const headers = new HttpHeaders().set('Authorization', `${this.getToken()}`);
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
         return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
     }
 }

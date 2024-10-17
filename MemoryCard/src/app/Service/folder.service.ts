@@ -40,13 +40,15 @@ export class FolderService {
   }
 
     getFoldersByUserId(): Observable<Folder[]> {
-        const headers = new HttpHeaders().set('Authorization', `${this.getToken()}`);
-        return this.http.get<Folder[]>(`${this.apiUrl}/user/${this.getUser()}`, { headers });
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
+        const user = localStorage.getItem('authUser');
+        var userId = user ? JSON.parse(user).id : null;
+        return this.http.get<Folder[]>(`${this.apiUrl}/user/${userId}`, { headers });
     }
 
     createFolder(folder: Folder): Observable<Folder> {
-        const headers = new HttpHeaders().set('Authorization', `${this.getToken()}`);
-        return this.http.post<Folder>(`${this.apiUrl}`, folder, {headers});
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
+        return this.http.post<Folder>(`${this.apiUrl}/`, folder, {headers});
     }
 
   deleteFolder(id: number): Observable<void> {
