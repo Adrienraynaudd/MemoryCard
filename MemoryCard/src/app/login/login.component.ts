@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { User } from '../interfaces/user';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -17,11 +18,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string | null = null;
 
-  constructor(
-    private userService: UserService,
-    private router: Router,
-    private formBuilder: FormBuilder
-  ) {
+  constructor(private userService: UserService,private router: Router,private formBuilder: FormBuilder,) {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -34,8 +31,9 @@ export class LoginComponent {
       const user: User = this.loginForm.value;
       this.userService.login(user).subscribe({
         next: (response) => {
-          console.log('Connexion réussie', response);
-          this.userService.saveAuthData(response.token, response.user);
+          if (response.token) {
+            this.userService.saveAuthData(response.token, response.user);
+          }
           this.router.navigate(['/']);
         },
         error: (error) => {
@@ -46,3 +44,14 @@ export class LoginComponent {
     }
   }
 }
+/*login(user: User): Observable<any> {
+    return this.http.post(this.apiUrl.login, user).pipe(
+        tap((response: any) => {
+            if (response.token) {
+                this.saveAuthData(response.token, response.user);
+                // On pourrait appeler ici un service d'état ou émettre un événement
+            }
+        })
+    );
+}
+*/

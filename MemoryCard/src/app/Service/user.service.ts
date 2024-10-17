@@ -14,6 +14,7 @@ export class UserService {
   }
   private tokenKey = 'authToken';
   private userKey = 'authUser';
+  
 
   constructor(private http: HttpClient) { }
 
@@ -39,9 +40,9 @@ export class UserService {
   }
   getToken(): string | null {
     if (typeof window !== 'undefined' && window.localStorage) {
-      return localStorage.getItem(this.tokenKey); // Assurez-vous que `this.tokenKey` est correctement défini
+      return localStorage.getItem(this.tokenKey); 
     }
-    return null; // Ou une autre valeur par défaut
+    return null;
   }
 
   // Méthode pour obtenir l'utilisateur
