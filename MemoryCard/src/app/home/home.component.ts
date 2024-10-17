@@ -3,8 +3,10 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../Service/user.service';
+import { FolderService} from '../Service/folder.service';
 import { VisibilityPopupService } from '../services/visibilityPopup/visibility-popup.service';
 import { PopupFolderComponent } from '../popup-folder/popup-folder.component';
+import { Folder } from '../interfaces/folder';
 
 
 @Component({
@@ -25,17 +27,19 @@ export class HomeComponent {
   appliedFilters: string[] = [];
   filterValue: string = '';
   selectedFilterType: string = 'Tag';
+  folders: Folder[] = [];
+  filteredFolders: Folder[] = [];
 
-  constructor(private VisibilityPopupService: VisibilityPopupService, private userService: UserService) { }
+  constructor(private VisibilityPopupService: VisibilityPopupService, private userService: UserService, private folderService: FolderService) { }
 
-  folders = [
-    { name: 'Dossier 1', tags: ['Tag1', 'Tag2', 'Tag3'], isLiked: false },
-    { name: 'Dossier 2', tags: ['TagA', 'TagB', 'TagC'], isLiked: false },
-    { name: 'Dossier 3', tags: ['TagX', 'TagY', 'TagZ'], isLiked: false },
-    { name: 'Dossier 4', tags: ['Tag1', 'Tag2', 'Tag5'], isLiked: false },
-  ];
-
-  filteredFolders = [...this.folders];
+  async ngOnInit() {
+    try {
+        this.folders = await this.folderService.getFolders();
+        this.filteredFolders = [...this.folders];
+      } catch (error) {
+        console.error('Erreur lors de la récupération des dossiers :', error);
+    }
+  }
 
   addFilter() {
     if (this.filterValue.trim()) {
@@ -48,13 +52,11 @@ export class HomeComponent {
     this.appliedFilters.splice(index, 1);
     this.applyFilters();
   }
-  
 
   applyFilters() {
     this.filteredFolders = this.folders.filter(folder => {
       let tagsMatch = false;
       let nameMatch = false;
-  
       tagsMatch = this.appliedFilters.filter(filter => filter.startsWith('Tag:')).every(filter => {
         const tag = filter.replace('Tag: ', '').replace(/\s+/g, '').toLowerCase();
         return folder.tags.map(t => t.replace(/\s+/g, '').toLowerCase()).includes(tag);
@@ -69,8 +71,8 @@ export class HomeComponent {
   }
 
   likeFolder(folder: any) {
-    folder.isLiked = !folder.isLiked;
-    console.log('J\'aime le dossier:', folder.name, folder.isLiked);
+    folder.isFavorite = !folder.isFavorite;
+    console.log('J\'aime le dossier:', folder.name, folder.isFavorite);
   }
 
   deleteFolder(folder: any) {
@@ -79,8 +81,8 @@ export class HomeComponent {
     console.log('Dossier supprimé:', folder.name);
   }
 
-  getHeartColor(isLiked: boolean): string {
-    return isLiked ? 'red' : 'gray';
+  getHeartColor(isFavorite: boolean): string {
+    return isFavorite ? 'red' : 'gray';
   }
   setVisibility(value: boolean) {
     this.VisibilityPopupService.setVisibility();  

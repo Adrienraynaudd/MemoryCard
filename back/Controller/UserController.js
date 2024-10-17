@@ -16,7 +16,7 @@ exports.createUser = async (req, res) => {
       school: school,
       city: city,
     });
-    const token = jwt.sign({ userId: newUser.id, username: newUser.username }, 'TjPJIv2wnVUdflrb', { expiresIn: '24h' });
+    const token = jwt.sign({ userId: newUser.id, username: newUser.username }, 'TjPJIv2wnVUdflrb');
     res.status(201).json({ user: newUser, token });
   } catch (error) {
     console.error('Erreur lors de la création de l\'utilisateur :', error);
