@@ -53,9 +53,16 @@ export class PopupFolderComponent implements OnInit, OnChanges {
 
   async loadCards(): Promise<void> {
     try {
-      this.cards = await this.cardService.getCards();
-      console.log('Cards loaded:', this.cards);
-      this.filterCards();
+      this.cardService.getCards().subscribe(
+        (cards) => {
+          this.cards = cards;
+          console.log('Cards loaded:', this.cards);
+          this.filterCards();
+        },
+        (error) => {
+          console.error('Erreur lors de la récupération des cards :', error);
+        }
+      );
     } catch (error) {
       console.error('Erreur lors de la récupération des cards :', error);
     }
