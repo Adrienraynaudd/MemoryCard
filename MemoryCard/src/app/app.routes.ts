@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FavoriteFolderComponent } from './favorite-folder/favorite-folder.component';
 import { AddCardComponent } from './add-card/add-card.component';
+import { UserEditComponent } from './user-edit/user-edit.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -11,5 +12,6 @@ export const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'favorite-folder', component: FavoriteFolderComponent },
     { path: 'addCardComponent', component: AddCardComponent },
+    { path: 'user-edit', component: UserEditComponent },
     { path: '**', redirectTo: '' },
 ];
