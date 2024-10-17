@@ -1,0 +1,25 @@
+<form [formGroup]="folderForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="title">Title</label>
+    <input id="title" formControlName="title">
+    <div *ngIf="folderForm.get('title')?.invalid && folderForm.get('title')?.touched">
+      Title is required.
+    </div>
+  </div>
+
+  <div>
+    <label for="tagInput">Tags</label>
+    <input id="tagInput" #tagInput>
+    <button type="button" (click)="addTag(tagInput)">Add Tag</button>
+  </div>
+
+  <div>
+    <ul>
+      <li *ngFor="let tag of tags; let i = index">
+        {{ tag }} <button type="button" (click)="removeTag(i)">Remove</button>
+      </li>
+    </ul>
+  </div>
+
+  <button type="submit" [disabled]="folderForm.invalid">Submit</button>
+</form>

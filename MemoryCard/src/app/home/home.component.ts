@@ -9,6 +9,7 @@ import { PopupFolderComponent } from '../popup-folder/popup-folder.component';
 import { Folder } from '../interfaces/folder';
 import { AuthService } from '../Service/AuthService';
 import { User } from '../interfaces/user';
+import { AddCardComponent } from '../add-card/add-card.component';
 
 
 @Component({
@@ -19,8 +20,7 @@ import { User } from '../interfaces/user';
     RouterLink,
     RouterLinkActive,
     CommonModule,
-    FormsModule,
-    PopupFolderComponent
+    FormsModule
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
@@ -29,45 +29,15 @@ export class HomeComponent {
   appliedFilters: string[] = [];
   filterValue: string = '';
   selectedFilterType: string = 'Tag';
-  folders: Folder[] = [];
-  filteredFolders: Folder[] = [];
-  favoriteFolders: Folder[] = [];
-  selectFolderId: string = "";
 
-  constructor(private VisibilityPopupService: VisibilityPopupService, private userService: UserService, private folderService: FolderService, private authService: AuthService) { }
+  folders = [
+    { name: 'Dossier 1', tags: ['Tag1', 'Tag2', 'Tag3'], isLiked: false },
+    { name: 'Dossier 2', tags: ['TagA', 'TagB', 'TagC'], isLiked: false },
+    { name: 'Dossier 3', tags: ['TagX', 'TagY', 'TagZ'], isLiked: false },
+    { name: 'Dossier 4', tags: ['Tag1', 'Tag2', 'Tag5'], isLiked: false },
+  ];
 
-  ngOnInit() {
-    this.authService.checkAuth();
-    if (this.authService.checkAuth()) {
-        this.loadFolders();
-    }
-    this.authService.authStatus$.subscribe(isAuthenticated => {
-        if (isAuthenticated) {
-            this.loadFolders();
-        }
-    });
-}
-
-async loadFolders() {
-    try {
-      if (typeof window !== 'undefined' && window.localStorage) {
-        const token = localStorage.getItem('authToken');
-        const user = localStorage.getItem('authUser');
-        if(user != null)
-        {console.log('Token:', JSON.parse(user).FavoriteFolder);}
-         
-        var userId = user ? JSON.parse(user).id : null;
-        if(token != null ){
-
-          this.favoriteFolders = await this.userService.getfavoriteFolders(token,userId);
-        }
-        this.folders = await this.folderService.getFolders();
-        this.filteredFolders = [...this.folders];
-      }
-    } catch (error) {
-        console.error('Erreur lors de la récupération des dossiers :', error);
-    }
-}
+  filteredFolders = [...this.folders];
 
   addFilter() {
     if (this.filterValue.trim()) {

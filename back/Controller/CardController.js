@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 exports.createCard = async (req, res) => {
   try {
     const { question, response, userId, folderId} = req.body;
-
+    console.log(req.body);
     const newCard = await Card.create({
       id: uuidv4(),
       question: question,

@@ -42,6 +42,20 @@ exports.getFolderById = async (req, res) => {
   }
 };
 
+exports.getFoldersByUserId = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const folders = await Folder.find({ 'userId.userId': userId });
+    if (!folders || folders.length === 0) {
+      return res.status(404).json({ message: 'Aucun dossier trouvé pour cet utilisateur' });
+    }
+    res.status(200).json(folders);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des dossiers par userId :', error);
+    res.status(500).json({ message: 'Erreur lors de la récupération des dossiers par userId' });
+  }
+};
+
 exports.deleteFolderById = async (req, res) => {
   try {
     const folderId = req.params.id;

@@ -21,14 +21,33 @@ export class FolderService {
       return [];
     }
   }
+    private getToken(): string | null {
+        if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+            return localStorage.getItem('token');
+        }
+        return null;
+    }
+
+    private getUser(): string | null {
+        if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+            return localStorage.getItem('userId');
+        }
+        return null;
+    }
 
   getFolderById(id: number): Observable<Folder> {
     return this.http.get<Folder>(`${this.apiUrl}/${id}`);
   }
 
-  createFolder(folder: Folder): Observable<Folder> {
-    return this.http.post<Folder>(`${this.apiUrl}`, folder);
-  }
+    getFoldersByUserId(): Observable<Folder[]> {
+        const headers = new HttpHeaders().set('Authorization', `${this.getToken()}`);
+        return this.http.get<Folder[]>(`${this.apiUrl}/user/${this.getUser()}`, { headers });
+    }
+
+    createFolder(folder: Folder): Observable<Folder> {
+        const headers = new HttpHeaders().set('Authorization', `${this.getToken()}`);
+        return this.http.post<Folder>(`${this.apiUrl}`, folder, {headers});
+    }
 
   deleteFolder(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
