@@ -3,8 +3,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const compression = require('compression');
 const bodyParser = require('body-parser');
-const cors = require('cors');
-
 const userRoutes = require('./Routes/UserRoutes');
 const cardRoutes = require('./Routes/CardRoutes');
 const folderRoutes = require('./Routes/FolderRoutes');

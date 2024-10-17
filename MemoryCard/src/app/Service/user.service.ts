@@ -33,6 +33,7 @@ export class UserService {
     }
   }
   saveAuthData(token: string, user: User) {
+    console.log('saveAuthData', token, user);
     localStorage.setItem(this.tokenKey, token);
     localStorage.setItem(this.userKey, JSON.stringify(user));
   }
