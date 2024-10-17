@@ -9,11 +9,11 @@
 
   <!-- Template pour l'utilisateur connecté -->
   <ng-template #loggedInTemplate>
-    <div class="auth-links">
-      <a href="/profile" class="auth-link">
+    <div class="auth-links connect">
+      <a href="/profile" class="auth-link profil">
         <i class="fas fa-user"></i> Profil
       </a>
-      <a (click)="logout()" class="auth-link">Déconnexion</a>
+      <a (click)="logout()" class="auth-link deconnexion">Déconnexion</a>
     </div>
   </ng-template>
 

@@ -21,8 +21,6 @@
   padding: 10px;
   border: none;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-
-
 }
 
 .profile-section {
@@ -64,14 +62,12 @@
   overflow-y: scroll;
 }
 
-
-
 .folder-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  background-color: #fff; 
+  background-color: #fff;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   transition: 0.3s;
   height: 10rem;
@@ -163,14 +159,13 @@
   transform: scale(1.2);
 }
 
-
 .add-filter-button {
   padding: 10px 20px;
   margin-top: 40px;
   font-size: 1.3rem;
   font-family: Arial, Helvetica, sans-serif;
   border: none;
-  background: rgba(255, 255, 255, 0.70);;
+  background: rgba(255, 255, 255, 0.7);
   color: #151515;
   cursor: pointer;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
@@ -199,9 +194,7 @@
   color: #000;
   cursor: pointer;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-
 }
-
 
 .customSelect:after {
   position: absolute;
@@ -220,6 +213,51 @@
 
 .filters-added::-webkit-scrollbar {
   display: none;
+}
+
+.connect {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-top: 10px;
+  background-color: #3b38be;
+  gap: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.512);
+}
+
+.profil, .deconnexion {
+  width: 8.7rem;
+  height: 2rem;
+  font-size: 1.3rem;
+  padding: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  border: none;
+  background: #3b38be;
+  color: #151515;
+  cursor: pointer;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+  transition: 0.3s;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+
+}
+
+.profil:hover, .deconnexion:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(0, 5px);
+  transition: 0.3s;
+  color: black;
+  scale: 1.1;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 
