@@ -2,9 +2,9 @@
 
 <div class="home-container">
   <!-- Afficher Connexion et Enregistrement si non connecté, ou Profil et Déconnexion si connecté -->
-  <div class="auth-links" *ngIf="!isLoggedIn(); else loggedInTemplate">
-    <a href="/login" class="auth-link">Connexion</a>
-    <a href="/register" class="auth-link">Enregistrement</a>
+  <div class="auth-links noConnect" *ngIf="!isLoggedIn(); else loggedInTemplate">
+    <a href="/login" class="auth-link login">Connexion</a>
+    <a href="/register" class="auth-link register">Enregistrement</a>
   </div>
 
   <!-- Template pour l'utilisateur connecté -->
@@ -56,9 +56,9 @@
         <div
           class="folder-item"
           *ngFor="let folder of folders"
-          (click)="selectFolder(folder._id)"
+          
         >
-          <div class="folder-info">
+          <div class="folder-info" (click)="selectFolder(folder._id)">
             <h3 class="folder-name">{{ folder.title }}</h3>
             <div class="tags">
               <span class="tag" *ngFor="let tag of folder.tags">{{ tag }}</span>

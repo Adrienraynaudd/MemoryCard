@@ -101,7 +101,7 @@
 
 .tag {
   display: inline-block;
-  background-color: #007bff;
+  background-color: #3b38be;
   color: #fff;
   padding: 5px 10px;
   border-radius: 15px;
@@ -112,6 +112,7 @@
 .actions {
   display: flex;
   gap: 10px;
+  z-index: 10;
 }
 
 .like-button,
@@ -215,7 +216,7 @@
   display: none;
 }
 
-.connect {
+.connect, .noConnect {
   position: fixed;
   top: 0;
   left: 0;
@@ -230,8 +231,8 @@
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.512);
 }
 
-.profil, .deconnexion {
-  width: 8.7rem;
+.profil, .deconnexion, .login, .register {
+  width: 10rem;
   height: 2rem;
   font-size: 1.3rem;
   padding: 10px;
@@ -250,7 +251,7 @@
 
 }
 
-.profil:hover, .deconnexion:hover {
+.profil:hover, .deconnexion:hover, .login:hover, .register:hover {
   background: rgba(255, 255, 255, 0.3);
   transform: translate(0, 5px);
   transition: 0.3s;
