@@ -10,14 +10,18 @@
 .filters {
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
   margin-bottom: 20px;
 }
 
 .filter-input {
   width: 30%;
+  height: 2rem;
   padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  border: none;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+
+
 }
 
 .profile-section {
@@ -42,6 +46,13 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  overflow-y: scroll;
+  height: 70vh;
+  width: 100%;
+  padding: 10px;
+  position: fixed;
+  
+  
 }
 
 .folder-item {
@@ -49,19 +60,31 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  border: 1px solid #eee;
-  border-radius: 10px;
-  background-color: #fafafa;
+  background-color: #fff; 
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+  height: 10rem;
+  width: 98%;
+}
+
+.folder-item:hover {
+  transform: scale(1.01);
+  transition: 0.3s;
 }
 
 .folder-info {
   display: flex;
   flex-direction: column;
+  width: 70%;
+  height: 100%;
 }
 
 .folder-name {
+  width: 10rem;
+  height: 2rem;
   font-size: 1.2em;
   margin: 0;
+  color: black !important;
 }
 
 .tags {
@@ -127,3 +150,58 @@
 .delete-button:hover .fa-trash-alt {
   transform: scale(1.2);
 }
+
+
+.add-filter-button {
+  padding: 10px 20px;
+  margin-top: 40px;
+  font-size: 1.3rem;
+  font-family: Arial, Helvetica, sans-serif;
+  border: none;
+  background: rgba(255, 255, 255, 0.70);;
+  color: #151515;
+  cursor: pointer;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+
+.add-filter-button:hover {
+  background: #3b38be;
+  transform: translate(0, -5px);
+  transition: 0.3s;
+  color: white;
+}
+
+.customSelect {
+  position: relative;
+}
+
+.customSelect select {
+  position: relative;
+  appearance: none;
+  width: 100%;
+  height: 2rem;
+  padding: 0.675em 6em 0.675em 1em;
+  background-color: #fff;
+  border: none;
+  color: #000;
+  cursor: pointer;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+
+}
+
+
+.customSelect:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #161616 transparent transparent transparent;
+}
+
+
+
+

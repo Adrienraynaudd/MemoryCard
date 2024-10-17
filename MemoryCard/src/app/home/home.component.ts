@@ -65,7 +65,7 @@ export class HomeComponent {
 
       nameMatch = this.appliedFilters.filter(filter => filter.startsWith('Folder Name:')).every(filter => {
         const name = filter.replace('Folder Name: ', '').replace(/\s+/g, '').toLowerCase();
-        return folder.name.replace(/\s+/g, '').toLowerCase().includes(name);
+        return folder.title.replace(/\s+/g, '').toLowerCase().includes(name);
       });
       return tagsMatch && nameMatch;
     });
@@ -105,5 +105,11 @@ export class HomeComponent {
     console.log("l'id du dossier est:", folder._id);
     folder._id = this.selectFolderId;
     return folder._id;
+  }
+
+
+  selectFolder(folderId: number) {
+    this.selectFolderId = folderId;
+    this.setVisibility(true);
   }
 }

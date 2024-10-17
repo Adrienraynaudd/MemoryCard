@@ -1,4 +1,11 @@
-import { Component, OnInit, Renderer2, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Renderer2,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { VisibilityPopupService } from '../services/visibilityPopup/visibility-popup.service';
 import { CommonModule } from '@angular/common';
 import { CardService } from '../Service/card.service';
@@ -12,11 +19,11 @@ import { Card } from '../interfaces/card';
   templateUrl: './popup-folder.component.html',
   styleUrl: './popup-folder.component.css',
 })
-export class PopupFolderComponent implements OnInit {
-  visibility: boolean = false;
-
+export class PopupFolderComponent implements OnInit, OnChanges {
   @Input() folderId!: number;
+  visibility: boolean = false;
   cards: Card[] = [];
+  filteredCards: Card[] = [];
 
   constructor(
     private visibilityPopupService: VisibilityPopupService,
@@ -30,6 +37,13 @@ export class PopupFolderComponent implements OnInit {
     this.loadCards();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['folderId']) {
+      console.log('folderId changed:', this.folderId);
+      this.filterCards();
+    }
+  }
+
   initializeVisibility(): void {
     this.visibilityPopupService.getVisibility().subscribe((visibility) => {
       this.visibility = visibility;
@@ -40,11 +54,19 @@ export class PopupFolderComponent implements OnInit {
   async loadCards(): Promise<void> {
     try {
       this.cards = await this.cardService.getCards();
+      console.log('Cards loaded:', this.cards);
+      this.filterCards();
     } catch (error) {
       console.error('Erreur lors de la récupération des cards :', error);
     }
   }
-
+  filterCards(): void {
+    console.log('Filtering cards with folderId:', this.folderId);
+    this.filteredCards = this.cards.filter(
+      (card) => card.folderId === this.folderId
+    );
+    console.log('Filtered cards:', this.filteredCards);
+  }
   changeVisibility(): void {
     const element = this.renderer.selectRootElement('#listAllCards', true);
     if (element) {
@@ -66,7 +88,4 @@ export class PopupFolderComponent implements OnInit {
       );
     }
   }
-
-  
-
 }
