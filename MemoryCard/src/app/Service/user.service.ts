@@ -45,12 +45,6 @@ export class UserService {
     return null;
   }
 
-  // Méthode pour obtenir l'utilisateur
-  getUser(): User | null {
-    const userJson = localStorage.getItem(this.userKey);
-    return userJson ? JSON.parse(userJson) : null;
-  }
-
   // Méthode pour vérifier si l'utilisateur est connecté
   isLoggedIn(): boolean {
     return this.getToken() !== null;
