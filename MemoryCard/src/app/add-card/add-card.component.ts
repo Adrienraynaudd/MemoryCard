@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { CardService } from '../Service/card.service';
 import { FolderService } from '../Service/folder.service';
 import { CommonModule } from '@angular/common';
+import { AddFolderComponent } from '../add-folder/add-folder.component';
 
 @Component({
   selector: 'app-add-card',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, AddFolderComponent],
   templateUrl: './add-card.component.html',
   styleUrls: ['./add-card.component.css']
 })
@@ -17,6 +18,7 @@ export class AddCardComponent implements OnInit {
   errorMessage: string | null = null;
   folders: any[] = [];
   userId: string | null = null;
+  showAddFolder: boolean = false;
 
   constructor(
     private cardService: CardService,
@@ -40,11 +42,9 @@ export class AddCardComponent implements OnInit {
   }
 
   loadFolders() {
-    console.log('test de load folder');
     if (this.userId) {
       this.folderService.getFoldersByUserId().subscribe({
         next: (folders) => {
-          console.log('user Dossiers chargés', folders);
           this.folders = folders;
         },    
         error: (err) => {
@@ -53,7 +53,12 @@ export class AddCardComponent implements OnInit {
       });
     }
   }
-
+  toggleAddFolder() {
+    this.showAddFolder = !this.showAddFolder;
+  }
+  onFolderAdded() {
+    this.loadFolders();
+  }
   onSubmit(): void {
     if (this.cardForm.valid) {
       const card = this.cardForm.value;

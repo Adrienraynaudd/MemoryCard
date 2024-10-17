@@ -40,7 +40,8 @@ export class FolderService {
     }
 
     createFolder(folder: Folder): Observable<Folder> {
-        return this.http.post<Folder>(`${this.apiUrl}`, folder);
+        const headers = new HttpHeaders().set('Authorization', `${this.getToken()}`);
+        return this.http.post<Folder>(`${this.apiUrl}`, folder, {headers});
     }
 
     deleteFolder(id: number): Observable<void> {

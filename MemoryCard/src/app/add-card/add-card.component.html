@@ -1,3 +1,10 @@
+<button (click)="toggleAddFolder()" class="form-button">
+  {{ showAddFolder ? 'Hide Add Folder' : 'Show Add Folder' }}
+</button>
+
+<div *ngIf="showAddFolder">
+  <app-add-folder (folderAdded)="onFolderAdded()"></app-add-folder>
+</div>
 
 <form [formGroup]="cardForm" (ngSubmit)="onSubmit()" class="form-container">
   <div class="form-group">
