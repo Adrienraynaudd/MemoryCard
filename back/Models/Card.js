@@ -4,8 +4,8 @@ const cardSchema = new mongoose.Schema({
     id: String,
     question: String,
     response: String,
-    userId: {String},
-    folderId: {String}
+    userId: String,
+    folderId: String
 
 }, { collection: 'CollectionCard' });
 
