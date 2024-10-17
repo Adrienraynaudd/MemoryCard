@@ -35,6 +35,7 @@ export class LoginComponent {
       this.userService.login(user).subscribe({
         next: (response) => {
           console.log('Connexion réussie', response);
+          this.userService.saveAuthData(response.token, response.user);
           this.router.navigate(['/']);
         },
         error: (error) => {

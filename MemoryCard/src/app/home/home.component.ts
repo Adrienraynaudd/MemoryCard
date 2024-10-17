@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../Service/user.service';
 import { VisibilityPopupService } from '../services/visibilityPopup/visibility-popup.service';
 import { PopupFolderComponent } from '../popup-folder/popup-folder.component';
 
@@ -25,7 +26,7 @@ export class HomeComponent {
   filterValue: string = '';
   selectedFilterType: string = 'Tag';
 
-  constructor(private VisibilityPopupService: VisibilityPopupService) { }
+  constructor(private VisibilityPopupService: VisibilityPopupService, private userService: UserService) { }
 
   folders = [
     { name: 'Dossier 1', tags: ['Tag1', 'Tag2', 'Tag3'], isLiked: false },
@@ -88,9 +89,12 @@ export class HomeComponent {
 
   getVisibility() {
     console.log('VisibilityPopupService:', this.VisibilityPopupService.getVisibility());
-    return this.VisibilityPopupService.getVisibility();  
+    return this.VisibilityPopupService.getVisibility();
   }
-
-
-
+  isLoggedIn(): boolean {
+    return this.userService.isLoggedIn();
+  }
+  logout() {
+    this.userService.logout();
+  }
 }
