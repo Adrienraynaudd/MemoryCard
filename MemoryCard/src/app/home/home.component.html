@@ -16,7 +16,11 @@
       <a (click)="logout()" class="auth-link">Déconnexion</a>
     </div>
   </ng-template>
-
+  <div class="new-card-button-container">
+    <button class="new-card-button">
+      <a href="/addCardComponent">Nouvelle carte</a>
+    </button>
+  </div>
   <!-- Rest of your filters and folders -->
   <aside class="filters-added">
     <h3>Filtres ajoutés</h3>
@@ -29,7 +33,6 @@
       </li>
     </ul>
   </aside>
-    <app-add-card></app-add-card>
   <div class="filters-section">
     <div class="filters">
       <input
