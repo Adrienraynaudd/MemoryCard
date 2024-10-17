@@ -10,7 +10,7 @@
   <!-- Template pour l'utilisateur connecté -->
   <ng-template #loggedInTemplate>
     <div class="auth-links">
-      <a href="/profile" class="auth-link">
+      <a routerLink="/user-edit" class="auth-link">
         <i class="fas fa-user"></i> Profil
       </a>
       <a (click)="logout()" class="auth-link">Déconnexion</a>

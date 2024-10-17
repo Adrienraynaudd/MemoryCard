@@ -1,0 +1,23 @@
+<div class="form-container">
+  <div class="form-box">
+    <h2>Mettez à jour votre profil</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="username">Nom d'utilisateur :</label>
+        <input type="text" id="username" [(ngModel)]="user.username" name="username" placeholder="Entrez votre nom d'utilisateur"/>
+      </div>
+
+      <div class="form-group">
+        <label for="city">Ville :</label>
+        <input type="text" id="city" [(ngModel)]="user.city" name="city" placeholder="Entrez votre ville"/>
+      </div>
+
+      <div class="form-group">
+        <label for="school">École :</label>
+        <input type="text" id="school" [(ngModel)]="user.school" name="school" placeholder="Entrez votre école"/>
+      </div>
+
+      <button type="submit" class="btn">Sauvegarder</button>
+    </form>
+  </div>
+</div>

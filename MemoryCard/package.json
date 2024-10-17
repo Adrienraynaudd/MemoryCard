@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "run": "node server.js",
     "serve:ssr:MemoryCard": "node dist/memory-card/server/server.mjs"
   },
   "private": true,
@@ -22,7 +23,10 @@
     "@angular/router": "^17.2.0",
     "@angular/ssr": "^17.2.0",
     "@fortawesome/fontawesome-free": "^6.6.0",
-    "express": "^4.18.2",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "mongoose": "^8.7.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
@@ -40,6 +44,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "nodemon": "^3.1.7",
     "typescript": "~5.3.2"
   }
 }
