@@ -44,16 +44,26 @@
 
 .folder-list {
   display: flex;
-  flex-direction: column;
   gap: 15px;
-  overflow-y: scroll;
   height: 70vh;
   width: 100%;
   padding: 10px;
   position: fixed;
-  
-  
 }
+
+.contentAllItem {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  overflow-y: scroll;
+}
+
+
 
 .folder-item {
   display: flex;
@@ -64,7 +74,7 @@
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   transition: 0.3s;
   height: 10rem;
-  width: 98%;
+  width: 100%;
 }
 
 .folder-item:hover {
@@ -75,12 +85,13 @@
 .folder-info {
   display: flex;
   flex-direction: column;
-  width: 70%;
+  width: 100%;
   height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .folder-name {
-  width: 10rem;
+  width: 100%;
   height: 2rem;
   font-size: 1.2em;
   margin: 0;
@@ -202,6 +213,13 @@
   border-color: #161616 transparent transparent transparent;
 }
 
+.filters-added {
+  overflow-y: scroll;
+}
+
+.filters-added::-webkit-scrollbar {
+  display: none;
+}
 
 
 

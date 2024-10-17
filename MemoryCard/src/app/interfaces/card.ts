@@ -3,5 +3,5 @@ export interface Card {
     question: string;
     response: string;
     userId: number;
-    folderId: number;
+    folderId: string;
 }

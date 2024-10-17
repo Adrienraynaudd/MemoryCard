@@ -20,7 +20,7 @@ import { Card } from '../interfaces/card';
   styleUrl: './popup-folder.component.css',
 })
 export class PopupFolderComponent implements OnInit, OnChanges {
-  @Input() folderId!: number;
+  @Input() folderId!: string;
   visibility: boolean = false;
   cards: Card[] = [];
   filteredCards: Card[] = [];
@@ -63,7 +63,7 @@ export class PopupFolderComponent implements OnInit, OnChanges {
   filterCards(): void {
     console.log('Filtering cards with folderId:', this.folderId);
     this.filteredCards = this.cards.filter(
-      (card) => card.folderId === this.folderId
+      (card) => console.log('card.folderId:', card.folderId)
     );
     console.log('Filtered cards:', this.filteredCards);
   }

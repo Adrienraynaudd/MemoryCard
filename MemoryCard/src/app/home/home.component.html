@@ -18,17 +18,6 @@
   </ng-template>
 
   <!-- Rest of your filters and folders -->
-  <aside class="filters-added">
-    <h3>Filtres ajoutés</h3>
-    <ul>
-      <li *ngFor="let filter of appliedFilters; let i = index">
-        {{ filter }}
-        <button class="delete-filter-button" (click)="removeFilter(i)">
-          <i class="fas fa-trash-alt"></i>
-        </button>
-      </li>
-    </ul>
-  </aside>
 
   <div class="filters-section">
     <div class="filters">
@@ -52,28 +41,41 @@
     </div>
 
     <div class="folder-list">
-      <div
-        class="folder-item"
-        *ngFor="let folder of folders"
-        (click)="selectFolder(folder._id)"
-      >
-        <div class="folder-info">
-          <h3 class="folder-name">titre : {{ folder.title }}</h3>
-          <div class="tags">
-            <span class="tag" *ngFor="let tag of folder.tags">{{ tag }}</span>
+      <aside class="filters-added">
+        <h3>Filtres ajoutés</h3>
+        <ul>
+          <li *ngFor="let filter of appliedFilters; let i = index">
+            {{ filter }}
+            <button class="delete-filter-button" (click)="removeFilter(i)">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </li>
+        </ul>
+      </aside>
+      <div class="contentAllItem">
+        <div
+          class="folder-item"
+          *ngFor="let folder of folders"
+          (click)="selectFolder(folder._id)"
+        >
+          <div class="folder-info">
+            <h3 class="folder-name">{{ folder.title }}</h3>
+            <div class="tags">
+              <span class="tag" *ngFor="let tag of folder.tags">{{ tag }}</span>
+            </div>
           </div>
-        </div>
 
-        <div class="actions">
-          <button class="like-button" (click)="likeFolder(folder)">
-            <i
-              class="fas fa-heart"
-              [style.color]="getHeartColor(folder.isFavorite)"
-            ></i>
-          </button>
-          <button class="delete-button" (click)="deleteFolder(folder)">
-            <i class="fas fa-trash-alt"></i>
-          </button>
+          <div class="actions">
+            <button class="like-button" (click)="likeFolder(folder)">
+              <i
+                class="fas fa-heart"
+                [style.color]="getHeartColor(folder.isFavorite)"
+              ></i>
+            </button>
+            <button class="delete-button" (click)="deleteFolder(folder)">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
