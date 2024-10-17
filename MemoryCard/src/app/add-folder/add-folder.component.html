@@ -1,16 +1,14 @@
 <form [formGroup]="folderForm" (ngSubmit)="onSubmit()">
   <div>
-    <label for="title">Title</label>
-    <input id="title" formControlName="title">
-    <div *ngIf="folderForm.get('title')?.invalid && folderForm.get('title')?.touched">
+    <input id="title" class="input" formControlName="title" placeholder="Titre">
+    <div *ngIf="folderForm.get('title')?.invalid && folderForm.get('title')?.touched" class="error">
       Title is required.
     </div>
   </div>
 
-  <div>
-    <label for="tagInput">Tags</label>
-    <input id="tagInput" #tagInput>
-    <button type="button" (click)="addTag(tagInput)">Add Tag</button>
+  <div class="contentTag">
+    <input id="tagInput" class="input" #tagInput placeholder="Tags">
+    <button type="button" (click)="addTag(tagInput)">+</button>
   </div>
 
   <div>

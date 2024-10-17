@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { CardService } from '../Service/card.service';
 import { FolderService } from '../Service/folder.service';
 import { CommonModule } from '@angular/common';
@@ -9,7 +9,7 @@ import { AddFolderComponent } from '../add-folder/add-folder.component';
 @Component({
   selector: 'app-add-card',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, AddFolderComponent],
+  imports: [CommonModule, ReactiveFormsModule, AddFolderComponent, RouterOutlet],
   templateUrl: './add-card.component.html',
   styleUrls: ['./add-card.component.css']
 })
