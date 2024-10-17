@@ -1,4 +1,24 @@
-<div id="listAllCards" >
-    <h1>test popup</h1>
-</div>
+<div id="listAllCards">
+  <div class="header">
+    <span></span>
+    <h1>Cartes</h1>
+    <div class="cross" (click)="changeVisibilityPopup()">
+      <span></span>
+    </div>
+  </div>
 
+  <div id="contentCards">
+    <div class="cardGen" *ngFor="let card of filteredCards">
+      <div class="cardwrapper">
+        <div class="card">
+          <div class="cardFront">
+            {{ card.question }}
+          </div>
+          <div class="cardBack">
+            {{ card.response }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

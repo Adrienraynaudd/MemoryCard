@@ -55,8 +55,8 @@ public Token: String = '';
   }
 
   updateUser(user: User): Observable<any> {
-    if (user.id) {
-      return this.http.put(this.apiUrl.updateUser.replace(':id', user.id.toString()), user);
+    if (user._id) {
+      return this.http.put(this.apiUrl.updateUser.replace(':id', user._id.toString()), user);
     } else {
       throw new Error("L'ID de l'utilisateur est manquant.");
     }

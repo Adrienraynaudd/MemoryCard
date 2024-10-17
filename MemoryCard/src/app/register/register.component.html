@@ -1,52 +1,83 @@
 <router-outlet></router-outlet>
 <div class="register-container">
+  <div class="register">
     <h2>Inscription</h2>
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="username">Nom d'utilisateur:</label>
-        <input type="text" id="username" formControlName="username" />
-        <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
-          <small class="error">Le nom d'utilisateur est requis.</small>
+      <span class="part1">
+        <div class="form-group">
+          <input type="text" id="username" formControlName="username" placeholder="Nom d'utilisateur" />
+          <div
+            *ngIf="
+              registerForm.get('username')?.invalid &&
+              registerForm.get('username')?.touched
+            "
+          >
+            <small class="error">Le nom d'utilisateur est requis.</small>
+          </div>
         </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" formControlName="email" />
-        <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
-          <small class="error">Un email valide est requis.</small>
+
+        <div class="form-group">
+          <input type="email" id="email" formControlName="email" placeholder="Email" />
+          <div
+            *ngIf="
+              registerForm.get('email')?.invalid &&
+              registerForm.get('email')?.touched
+            "
+          >
+            <small class="error">Un email valide est requis.</small>
+          </div>
         </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="password">Mot de passe:</label>
-        <input type="password" id="password" formControlName="password" />
-        <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
-          <small class="error">Le mot de passe est requis.</small>
+
+        <div class="form-group">
+          <input type="password" id="password" formControlName="password" placeholder="Mot de passe" />
+          <div
+            *ngIf="
+              registerForm.get('password')?.invalid &&
+              registerForm.get('password')?.touched
+            "
+          >
+            <small class="error">Le mot de passe est requis.</small>
+          </div>
         </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="school">École:</label>
-        <input type="text" id="school" formControlName="school" />
-        <div *ngIf="registerForm.get('school')?.invalid && registerForm.get('school')?.touched">
-          <small class="error">Le champ École est requis.</small>
+      </span>
+
+      <span class="part2">
+        <div class="form-group">
+          <input type="text" id="school" formControlName="school" placeholder="École"/>
+          <div
+            *ngIf="
+              registerForm.get('school')?.invalid &&
+              registerForm.get('school')?.touched
+            "
+          >
+            <small class="error">Le champ École est requis.</small>
+          </div>
         </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="city">Ville:</label>
-        <input type="text" id="city" formControlName="city" />
-        <div *ngIf="registerForm.get('city')?.invalid && registerForm.get('city')?.touched">
-          <small class="error">Le champ Ville est requis.</small>
+
+        <div class="form-group">
+          <input type="text" id="city" formControlName="city" placeholder="Ville" />
+          <div
+            *ngIf="
+              registerForm.get('city')?.invalid &&
+              registerForm.get('city')?.touched
+            "
+          >
+            <small class="error">Le champ Ville est requis.</small>
+          </div>
         </div>
-      </div>
-  
-      <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">S'inscrire</button>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="registerForm.invalid"
+        >
+          S'inscrire
+        </button>
+      </span>
       <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
       <p *ngIf="successMessage" class="success">{{ successMessage }}</p>
     </form>
-  
+
     <p>Déjà inscrit ? <a routerLink="/login">Se connecter</a></p>
   </div>
-  
+</div>

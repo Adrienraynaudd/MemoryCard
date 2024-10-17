@@ -29,23 +29,36 @@
       </li>
     </ul>
   </aside>
-  
+
   <div class="filters-section">
     <div class="filters">
-      <input type="text" placeholder="Rechercher..." class="filter-input" [(ngModel)]="filterValue" />
+      <input
+        type="text"
+        placeholder="Entrer titre ou tag"
+        class="filter-input"
+        [(ngModel)]="filterValue"
+      />
 
-      <select class="filter-select" [(ngModel)]="selectedFilterType">
-        <option value="Tag">Tag</option>
-        <option value="Folder Name">Folder</option>
-      </select>
+      <div class="customSelect">
+        <select class="filter-select" [(ngModel)]="selectedFilterType">
+          <option value="Tag">Tag</option>
+          <option value="Folder Name">Folder</option>
+        </select>
+      </div>
 
-      <button class="add-filter-button" (click)="addFilter()">Add Filter</button>
+      <button class="add-filter-button" (click)="addFilter()">
+        Add Filter
+      </button>
     </div>
 
     <div class="folder-list">
-      <div class="folder-item" *ngFor="let folder of folders" (click)="setVisibility(!getVisibility())">
+      <div
+        class="folder-item"
+        *ngFor="let folder of folders"
+        (click)="selectFolder(folder._id)"
+      >
         <div class="folder-info">
-          <h3 class="folder-name">{{ folder.name }}</h3>
+          <h3 class="folder-name">titre : {{ folder.title }}</h3>
           <div class="tags">
             <span class="tag" *ngFor="let tag of folder.tags">{{ tag }}</span>
           </div>
@@ -53,7 +66,10 @@
 
         <div class="actions">
           <button class="like-button" (click)="likeFolder(folder)">
-            <i class="fas fa-heart" ></i>
+            <i
+              class="fas fa-heart"
+              [style.color]="getHeartColor(folder.isFavorite)"
+            ></i>
           </button>
           <button class="delete-button" (click)="deleteFolder(folder)">
             <i class="fas fa-trash-alt"></i>
@@ -63,5 +79,5 @@
     </div>
   </div>
 
-  <app-popup-folder></app-popup-folder>
+  <app-popup-folder [folderId]="selectFolderId"></app-popup-folder>
 </div>

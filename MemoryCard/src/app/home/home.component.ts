@@ -32,6 +32,7 @@ export class HomeComponent {
   folders: Folder[] = [];
   filteredFolders: Folder[] = [];
   favoriteFolders: Folder[] = [];
+  selectFolderId: string = "";
 
   constructor(private VisibilityPopupService: VisibilityPopupService, private userService: UserService, private folderService: FolderService, private authService: AuthService) { }
 
@@ -91,7 +92,7 @@ async loadFolders() {
 
       nameMatch = this.appliedFilters.filter(filter => filter.startsWith('Folder Name:')).every(filter => {
         const name = filter.replace('Folder Name: ', '').replace(/\s+/g, '').toLowerCase();
-        return folder.name.replace(/\s+/g, '').toLowerCase().includes(name);
+        return folder.title.replace(/\s+/g, '').toLowerCase().includes(name);
       });
       return tagsMatch && nameMatch;
     });
@@ -144,5 +145,17 @@ async loadFolders() {
   }
   logout() {
     this.userService.logout();
+  }
+
+  getFolderId(folder: Folder): number {
+    console.log("l'id du dossier est:", folder.id);
+    folder.id = this.selectFolderId;
+    return folder.id;
+  }
+
+
+  selectFolder(folderId: number) {
+    this.selectFolderId = folderId;
+    this.setVisibility(true);
   }
 }
