@@ -8,7 +8,7 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class FolderService {
-  private apiUrl = 'http://localhost:3000/api/folders/';
+  private apiUrl = 'http://localhost:3000/api/folders';
 
   constructor(private http: HttpClient, private userService: UserService) {}
 
@@ -22,15 +22,15 @@ export class FolderService {
     }
   }
     private getToken(): string | null {
-        if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-            return localStorage.getItem('token');
-        }
-        return null;
+      if (typeof window !== 'undefined' && window.localStorage) {
+        return localStorage.getItem("authToken");
+      }
+      return null;
     }
 
     private getUser(): string | null {
         if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-            return localStorage.getItem('userId');
+            return localStorage.getItem('authUser');
         }
         return null;
     }
@@ -50,6 +50,7 @@ export class FolderService {
     }
 
   deleteFolder(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, {headers});
   }
 }

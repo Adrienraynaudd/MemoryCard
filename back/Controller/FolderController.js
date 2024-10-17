@@ -59,7 +59,7 @@ exports.getFoldersByUserId = async (req, res) => {
 exports.deleteFolderById = async (req, res) => {
   try {
     const folderId = req.params.id;
-    const folder = await Folder.findByIdAndDelete(folderId);
+    const folder = await Folder.findOneAndDelete({id :folderId});
     if (!folder) {
       return res.status(404).json({ message: 'Dossier non trouvé' });
     }

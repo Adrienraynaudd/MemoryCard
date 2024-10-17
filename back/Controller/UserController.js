@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
+const Folder = require('../Models/Folder');
 
 exports.createUser = async (req, res) => {
   try {

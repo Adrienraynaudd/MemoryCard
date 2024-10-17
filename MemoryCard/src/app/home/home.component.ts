@@ -99,14 +99,19 @@ async loadFolders() {
     this.filteredFolders = this.folders.filter(folder => {
       let tagsMatch = false;
       let nameMatch = false;
-      tagsMatch = this.appliedFilters.filter(filter => filter.startsWith('Tag:')).every(filter => {
-        const tag = filter.replace('Tag: ', '').replace(/\s+/g, '').toLowerCase();
-        return folder.tags.map(t => t.replace(/\s+/g, '').toLowerCase()).includes(tag);
+  
+      tagsMatch = this.appliedFilters
+      .filter(filter => filter.startsWith('Tag:'))
+      .every(filter => {
+        const tag = filter.replace('Tag: ', '').trim().toLowerCase();
+        return folder.tags.map(t => t.trim().toLowerCase()).includes(tag);
       });
 
-      nameMatch = this.appliedFilters.filter(filter => filter.startsWith('Folder Name:')).every(filter => {
-        const name = filter.replace('Folder Name: ', '').replace(/\s+/g, '').toLowerCase();
-        return folder.title.replace(/\s+/g, '').toLowerCase().includes(name);
+    nameMatch = this.appliedFilters
+      .filter(filter => filter.startsWith('Folder Name:'))
+      .every(filter => {
+        const name = filter.replace('Folder Name: ', '').trim().toLowerCase();
+        return folder.title?.trim().toLowerCase().includes(name);
       });
       return tagsMatch && nameMatch;
     });
@@ -154,7 +159,19 @@ addFolderToFavorites(folder: Folder) {
   deleteFolder(folder: any) {
     this.folders = this.folders.filter(f => f !== folder);
     this.filteredFolders = this.filteredFolders.filter(f => f !== folder);
-    console.log('Dossier supprimé:', folder.name);
+    this.folderService.deleteFolder(folder.id).subscribe(
+      response => {
+        console.log('Réponse de l\'API:', response);
+      },
+      error => {
+        console.error('Erreur lors de l\'appel à l\'API:', error);
+      }
+    );
+    if (this.favoriteFolders.find(f =>  f === folder.id))
+    {
+      this.deleteFolderFromFavorites(folder.id);
+    }
+    console.log('Dossier supprimé:', folder);
   }
 
   getHeartColor(folder: Folder): string {

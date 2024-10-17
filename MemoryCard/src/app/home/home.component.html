@@ -54,7 +54,7 @@
     <div class="folder-list">
       <div
         class="folder-item"
-        *ngFor="let folder of folders"
+        *ngFor="let folder of filteredFolders"
         (click)="selectFolder(folder.id)"
       >
         <div class="folder-info">
