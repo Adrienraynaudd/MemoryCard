@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
 import { User } from '../interfaces/user';
+import { Folder } from '../interfaces/folder';
+import { Console } from 'console';
+import { AnyKeys, ObjectId } from 'mongoose';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +14,37 @@ export class UserService {
     register: "http://localhost:3000/api/users/",
     login: "http://localhost:3000/api/users/login",
     updateUser: "http://localhost:3000/api/users/:id",
+    FavoriteFolders: "http://localhost:3000/api/users/FavoriteFolders/:id",
+    AddFavoriteFolder: "http://localhost:3000/api/users/AddFavoriteFolder/:id",
   }
   private tokenKey = 'authToken';
   private userKey = 'authUser';
-  
+public Token: String = '';
 
   constructor(private http: HttpClient) { }
+  async getfavoriteFolders(Token: String, userId: any): Promise<Folder[]> {
+    try{
+      this.Token = Token;
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${Token}`);
+      const favFolders = await this.http.get<Folder[]>(`${this.apiUrl.FavoriteFolders.replace(':id', userId)}`, { headers }).toPromise();
+      return favFolders || [];
+    }catch (error) {
+      console.error('Erreur lors de la récupération des dossiers favoris :', error);
+      return [];
+    }
+  }
+  addFavoriteFolder(userId: any, Token: string, folder: Folder): Observable<any> {
+    try{
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${Token}`);
+      console.log('userId', folder);
+      return this.http.post<Folder>(`${this.apiUrl.AddFavoriteFolder.replace(':id', userId.toString())}`, folder, { headers });
+      
+    }
+    catch (error) {
+      console.error('Erreur lors de l\'ajout du dossier favori :', error);
+      return throwError(error);
+    }
+  }
 
   register(user: User): Observable<any> {
     return this.http.post(this.apiUrl.register, user);
@@ -33,22 +61,27 @@ export class UserService {
       throw new Error("L'ID de l'utilisateur est manquant.");
     }
   }
-  saveAuthData(token: string, user: User) {
-    console.log('saveAuthData', token, user);
+  saveAuthData(token: string, user: any): Promise<void> {
+    this.Token = token;
     localStorage.setItem(this.tokenKey, token);
     localStorage.setItem(this.userKey, JSON.stringify(user));
+    return Promise.resolve();
   }
+
   getToken(): string | null {
     if (typeof window !== 'undefined' && window.localStorage) {
-      return localStorage.getItem(this.tokenKey); 
+      return localStorage.getItem(this.tokenKey);
     }
     return null;
   }
 
   // Méthode pour obtenir l'utilisateur
   getUser(): User | null {
+    if (typeof window !== 'undefined' && window.localStorage) {
     const userJson = localStorage.getItem(this.userKey);
     return userJson ? JSON.parse(userJson) : null;
+    }
+    return null;
   }
 
   // Méthode pour vérifier si l'utilisateur est connecté

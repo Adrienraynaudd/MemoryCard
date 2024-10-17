@@ -1,13 +1,14 @@
 const Folder = require('../Models/Folder');
+const { v4: uuidv4 } = require('uuid');
 
 exports.createFolder = async (req, res) => {
   try {
-    const { name, tags, isFavorite, userId } = req.body;
+    const { name, tags, userId } = req.body;
 
     const newFolder = await Folder.create({
+      id: uuidv4(),
       name: name,
       tags: tags,
-      isFavorite: isFavorite,
       userId: userId,
     });
     res.status(201).json({ folder: newFolder });

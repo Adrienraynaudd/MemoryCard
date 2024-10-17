@@ -1,11 +1,13 @@
 // controllers/userController.js
 const Card = require('../Models/Card');
+const { v4: uuidv4 } = require('uuid');
 
 exports.createCard = async (req, res) => {
   try {
     const { question, response, userId, folderId} = req.body;
 
     const newCard = await Card.create({
+      id: uuidv4(),
       question: question,
       response: response,
       userId: userId,
@@ -21,7 +23,7 @@ exports.createCard = async (req, res) => {
 exports.getCardById = async (req, res) => {
   try {
       const cardId = req.params.id;
-      const card = await Card.findById(cardId);
+      const card = await Card.findOne({ id: userId });
       if (!card) {
           return res.status(404).json({ message: 'Carte non trouvé' });
       }
@@ -54,7 +56,7 @@ exports.updateCardById = async (req, res) => {
     };
 
     // Trouver la carte par ID et mettre à jour
-    const updatedCard = await Card.findByIdAndUpdate(cardId, updateObj, { new: true });
+    const updatedCard = await Card.findByIdAndUpdate({id :cardId}, updateObj, { new: true });
 
     if (!updatedCard) {
       return res.status(404).json({ message: 'Carte non trouvée' });
@@ -73,7 +75,7 @@ exports.deleteCardById = async (req, res) => {
       const cardId = req.params.id;
 
       // Supprime l'utilisateur par son ID
-      const result = await Card.deleteOne({ _id: cardId });
+      const result = await Card.deleteOne({ id: cardId });
 
       // Vérifie si un utilisateur a été supprimé
       if (result.deletedCount === 0) {

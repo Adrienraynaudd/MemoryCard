@@ -1,7 +1,6 @@
 export interface Folder {
-    id: number;
+    id: string;
     name: string;
     tags: [string];
-    isFavorite: boolean;
     userId: number;
 }

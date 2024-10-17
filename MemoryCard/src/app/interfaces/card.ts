@@ -1,5 +1,5 @@
 export interface Card {
-    id: number;
+    id: string;
     question: string;
     response: string;
     userId: number;

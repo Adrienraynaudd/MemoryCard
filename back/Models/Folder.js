@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
 
 const folderSchema = new mongoose.Schema({
+    id: String,
+    Title: String,
     question: String,
-    tags: [String],
     isFavorite: Boolean,
-    userId: {userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }}
+    tags: [String],
+    userId: String
 }, { collection: 'CollectionFolder' });
 
 const Folder = mongoose.model('Folder', folderSchema);

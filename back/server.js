@@ -19,7 +19,6 @@ app.use(compression());
 const username = encodeURIComponent('paulpiauger2');
 const password = encodeURIComponent('TjPJIv2wnVUdflrb');
 
-
 mongoose.connect(`mongodb+srv://${username}:${password}@cluster0.muatb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`).then(() => {
   console.log('Connected to MongoDB with Success !');
 }).catch((err) => {

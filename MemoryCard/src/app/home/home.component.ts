@@ -7,6 +7,8 @@ import { FolderService} from '../Service/folder.service';
 import { VisibilityPopupService } from '../services/visibilityPopup/visibility-popup.service';
 import { PopupFolderComponent } from '../popup-folder/popup-folder.component';
 import { Folder } from '../interfaces/folder';
+import { AuthService } from '../Service/AuthService';
+import { User } from '../interfaces/user';
 
 
 @Component({
@@ -29,17 +31,42 @@ export class HomeComponent {
   selectedFilterType: string = 'Tag';
   folders: Folder[] = [];
   filteredFolders: Folder[] = [];
+  favoriteFolders: Folder[] = [];
 
-  constructor(private VisibilityPopupService: VisibilityPopupService, private userService: UserService, private folderService: FolderService) { }
+  constructor(private VisibilityPopupService: VisibilityPopupService, private userService: UserService, private folderService: FolderService, private authService: AuthService) { }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.authService.checkAuth();
+    if (this.authService.checkAuth()) {
+        this.loadFolders();
+    }
+    this.authService.authStatus$.subscribe(isAuthenticated => {
+        if (isAuthenticated) {
+            this.loadFolders();
+        }
+    });
+}
+
+async loadFolders() {
     try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const token = localStorage.getItem('authToken');
+        const user = localStorage.getItem('authUser');
+        if(user != null)
+        {console.log('Token:', JSON.parse(user).FavoriteFolder);}
+         
+        var userId = user ? JSON.parse(user).id : null;
+        if(token != null ){
+
+          this.favoriteFolders = await this.userService.getfavoriteFolders(token,userId);
+        }
         this.folders = await this.folderService.getFolders();
         this.filteredFolders = [...this.folders];
-      } catch (error) {
+      }
+    } catch (error) {
         console.error('Erreur lors de la récupération des dossiers :', error);
     }
-  }
+}
 
   addFilter() {
     if (this.filterValue.trim()) {
@@ -70,9 +97,28 @@ export class HomeComponent {
     });
   }
 
-  likeFolder(folder: any) {
-    folder.isFavorite = !folder.isFavorite;
-    console.log('J\'aime le dossier:', folder.name, folder.isFavorite);
+  likeFolder(folder: Folder) {
+    console.log('Dossier favori:', folder);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const token = localStorage.getItem('authToken');
+      const user = localStorage.getItem('authUser');
+    var userId = user ? JSON.parse(user).id : null;
+    if(token != null && folder != null){
+    this.userService.addFavoriteFolder(userId, token, folder).subscribe(
+      response => {
+        console.log('Réponse de l\'API:', response);
+        // Traitez la réponse ici
+      },
+      error => {
+        console.error('Erreur lors de l\'appel à l\'API:', error);
+      }
+    );
+    }else{
+      console.error('Erreur lors de l\'ajout du dossier favori home.component.ts');
+    }
+    }else{
+      console.error('Erreur lors de l\'ajout du dossier favori home.component.ts');
+    }
   }
 
   deleteFolder(folder: any) {
@@ -85,7 +131,7 @@ export class HomeComponent {
     return isFavorite ? 'red' : 'gray';
   }
   setVisibility(value: boolean) {
-    this.VisibilityPopupService.setVisibility();  
+    this.VisibilityPopupService.setVisibility();
     console.log('VisibilityPopupService:', value);
   }
 

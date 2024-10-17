@@ -3,18 +3,22 @@ const User = require('../Models/User');
 const { authenticateToken } = require('../Middleware/auth');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
 
 exports.createUser = async (req, res) => {
   try {
-    const { username, email, password, school, city } = req.body;
+    const { username, email, password, school, city,FavoriteFolder } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await User.create({
+      id: uuidv4(),
       username: username,
       email: email,
       password: hashedPassword,
       school: school,
       city: city,
+      FavoriteFolder: FavoriteFolder,
     });
     const token = jwt.sign({ userId: newUser.id, username: newUser.username }, 'TjPJIv2wnVUdflrb');
     res.status(201).json({ user: newUser, token });
@@ -27,7 +31,7 @@ exports.createUser = async (req, res) => {
 exports.getUserById = async (req, res) => {
   try {
       const userId = req.params.id;
-      const user = await User.findById(userId);
+      const user = await User.findOne({ id: userId });
       if (!user) {
           return res.status(404).json({ message: 'Utilisateur non trouvé' });
       }
@@ -37,7 +41,6 @@ exports.getUserById = async (req, res) => {
       res.status(500).json({ message: 'Erreur lors de la récupération de l\'utilisateur' });
   }
 };
-
 exports.updateUserById = async (req, res) => {
   try {
       const userId = req.params.id;
@@ -62,7 +65,10 @@ exports.updateUserById = async (req, res) => {
       }
 
       // Find the user by id and update
-      const updatedUser = await User.findByIdAndUpdate(userId, updateObj, { new: true });
+      const updatedUser = await User.findOneAndUpdate(
+        { id: id },
+        updateObj,
+        { new: true, useFindAndModify: false });
 
       if (!updatedUser) {
           return res.status(404).json({ message: 'Utilisateur non trouvé' });
@@ -75,13 +81,12 @@ exports.updateUserById = async (req, res) => {
   }
 };
 
-  
 exports.deleteUserById = async (req, res) => {
   try {
       const userId = req.params.id;
 
       // Supprime l'utilisateur par son ID
-      const result = await User.deleteOne({ _id: userId });
+      const result = await User.deleteOne({ id: userId });
 
       // Vérifie si un utilisateur a été supprimé
       if (result.deletedCount === 0) {
@@ -114,5 +119,47 @@ exports.deleteUserById = async (req, res) => {
     } catch (error) {
       console.error('Erreur lors de l\'authentification de l\'utilisateur :', error);
       res.status(500).json({ message: 'Erreur lors de l\'authentification de l\'utilisateur' });
+    }
+  };
+  exports.getFavoriteFolders = async (req, res) => {
+    try {
+      const userId = req.params.id || 'defaultId'; 
+      const user = await User.findOne({ id: userId }).populate('FavoriteFolder');
+      if (!user) {
+        return res.status(404).json({ message: 'Utilisateur non trouvé' });
+      }
+      res.status(200).json(user.FavoriteFolder);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des dossiers favoris :', error);
+      res.status(500).json({ message: 'Erreur lors de la récupération des dossiers favoris' });
+    }
+  };
+  exports.addFolderIdToFavorite = async (req, res) => {
+    try {
+      const userId = req.params.id || 'defaultId';
+      const  folder  = req.body;
+      const user = await User.findOne({ id: userId }).populate('FavoriteFolder');
+      if (!user) {
+        return res.status(404).json({ message: 'Utilisateur non trouvé' });
+      }
+  
+      // Vérifiez si le dossier est déjà dans les favoris
+      if (user.FavoriteFolder.includes(folder)) {
+        return res.status(400).json({ message: 'Le dossier est déjà dans les favoris' });
+      }
+  
+      // Ajoutez le dossier aux favoris
+      console.log('Dossier à ajouter aux favoris:', folder);
+      if (folder && folder.id) {
+        user.FavoriteFolder.push(folder.id); // Assurez-vous d'utiliser l'ID ici
+        await user.save();
+        
+        res.status(200).json({ message: 'Dossier ajouté aux favoris' });
+      } else {
+        res.status(400).json({ message: 'Dossier non valide' });
+      }
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout du dossier aux favoris :', error);
+      res.status(500).json({ message: 'Erreur lors de l\'ajout du dossier aux favoris' });
     }
   };

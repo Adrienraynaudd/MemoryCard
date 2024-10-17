@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { User } from '../interfaces/user';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { AuthService } from '../Service/AuthService';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string | null = null;
 
-  constructor(private userService: UserService,private router: Router,private formBuilder: FormBuilder,) {
+  constructor(private userService: UserService,private router: Router,private formBuilder: FormBuilder,private authService: AuthService) {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -28,30 +28,23 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      const user: User = this.loginForm.value;
-      this.userService.login(user).subscribe({
-        next: (response) => {
-          if (response.token) {
-            this.userService.saveAuthData(response.token, response.user);
-          }
-          this.router.navigate(['/']);
-        },
-        error: (error) => {
-          this.errorMessage = 'Identifiants invalides. Veuillez réessayer.';
-          console.error('Erreur de connexion', error);
-        }
-      });
-    }
-  }
-}
-/*login(user: User): Observable<any> {
-    return this.http.post(this.apiUrl.login, user).pipe(
-        tap((response: any) => {
-            if (response.token) {
-                this.saveAuthData(response.token, response.user);
-                // On pourrait appeler ici un service d'état ou émettre un événement
+        const user: User = this.loginForm.value;
+        this.userService.login(user).subscribe({
+            next: async (response) => {
+                if (response.token) {
+                    await this.userService.saveAuthData(response.token, response.user);
+                    this.userService.Token = response.token;
+                    this.authService.emitAuthStatus(true); // Assurez-vous que cela est appelé
+                    this.router.navigate(['/home']);
+                }
+            },
+            error: (error) => {
+                this.errorMessage = 'Identifiants invalides. Veuillez réessayer.';
+                console.error('Erreur de connexion', error);
             }
-        })
-    );
+        });
+    }
 }
-*/
+
+
+}

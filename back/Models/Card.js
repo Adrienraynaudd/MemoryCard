@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
 const cardSchema = new mongoose.Schema({
+    id: String,
     question: String,
     response: String,
-    userId: {userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }},
-    folderId: {folderId: { type: mongoose.Schema.Types.ObjectId, ref: 'Folder' }}
+    userId: {String},
+    folderId: {String}
 
 }, { collection: 'CollectionCard' });
 
