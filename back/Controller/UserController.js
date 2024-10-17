@@ -45,9 +45,8 @@ exports.getUserById = async (req, res) => {
 exports.updateUserById = async (req, res) => {
   try {
       const userId = req.params.id;
-      const { username, email, password, school, city } = req.body;
+      const { username, email, password, school, city,FavoriteFolder } = req.body;
 
-      // Hash the new password if provided
       let hashedPassword;
       if (password) {
           hashedPassword = await bcrypt.hash(password, 10);
@@ -59,6 +58,7 @@ exports.updateUserById = async (req, res) => {
           email,
           school,
           city,
+          FavoriteFolder
       };
       // Add hashed password to update object if it exists
       if (hashedPassword) {
@@ -67,7 +67,7 @@ exports.updateUserById = async (req, res) => {
 
       // Find the user by id and update
       const updatedUser = await User.findOneAndUpdate(
-        { id: id },
+        { id: userId },
         updateObj,
         { new: true, useFindAndModify: false });
 
@@ -140,6 +140,7 @@ exports.deleteUserById = async (req, res) => {
       const userId = req.params.id || 'defaultId';
       const  folder  = req.body;
       const user = await User.findOne({ id: userId }).populate('FavoriteFolder');
+      const folderId = folder.id;
       if (!user) {
         return res.status(404).json({ message: 'Utilisateur non trouvé' });
       }

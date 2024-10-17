@@ -1,7 +1,7 @@
 import { Folder } from "./folder";
 
 export interface User {
-    _id: String;
+    id: String;
     username: String;
     email: String;
     password: String;
