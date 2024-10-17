@@ -55,7 +55,7 @@
       <div
         class="folder-item"
         *ngFor="let folder of folders"
-        (click)="selectFolder(folder._id)"
+        (click)="selectFolder(folder.id)"
       >
         <div class="folder-info">
           <h3 class="folder-name">titre : {{ folder.title }}</h3>
@@ -68,7 +68,7 @@
           <button class="like-button" (click)="likeFolder(folder)">
             <i
               class="fas fa-heart"
-              [style.color]="getHeartColor(folder.isFavorite)"
+              
             ></i>
           </button>
           <button class="delete-button" (click)="deleteFolder(folder)">

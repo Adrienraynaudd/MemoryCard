@@ -147,14 +147,14 @@ async loadFolders() {
     this.userService.logout();
   }
 
-  getFolderId(folder: Folder): number {
+  getFolderId(folder: Folder): string {
     console.log("l'id du dossier est:", folder.id);
     folder.id = this.selectFolderId;
     return folder.id;
   }
 
 
-  selectFolder(folderId: number) {
+  selectFolder(folderId: string) {
     this.selectFolderId = folderId;
     this.setVisibility(true);
   }

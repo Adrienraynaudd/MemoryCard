@@ -20,7 +20,7 @@ import { Card } from '../interfaces/card';
   styleUrl: './popup-folder.component.css',
 })
 export class PopupFolderComponent implements OnInit, OnChanges {
-  @Input() folderId!: number;
+  @Input() folderId!: string;
   visibility: boolean = false;
   cards: Card[] = [];
   filteredCards: Card[] = [];
