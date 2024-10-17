@@ -1,7 +1,6 @@
 import { Component, OnInit, Renderer2, Input } from '@angular/core';
 import { VisibilityPopupService } from '../services/visibilityPopup/visibility-popup.service';
 import { CommonModule } from '@angular/common';
-// import { Card } from '../interfaces/card';
 import { CardService } from '../Service/card.service';
 import { FolderService } from '../Service/folder.service';
 import { Card } from '../interfaces/card';
@@ -57,15 +56,17 @@ export class PopupFolderComponent implements OnInit {
     }
   }
 
-  // getCards() {
-  //   this.cardService.getCards().subscribe((cards) => {
-  //     console.log(cards);
-  //   });
-  // }
+  changeVisibilityPopup(): void {
+    const element = this.renderer.selectRootElement('#listAllCards', true);
+    if (element) {
+      this.renderer.setStyle(
+        element,
+        'visibility',
+        this.visibility ? 'hidden' : 'visible'
+      );
+    }
+  }
 
-  // getFolders() {
-  //   this.folderService.getFolders().then((folders) => {
-  //     console.log(folders);
-  //   });
-  // }
+  
+
 }

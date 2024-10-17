@@ -1,5 +1,10 @@
 #listAllCards{
-    background-color: fuchsia;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.159);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     position: fixed;
     z-index: 10;
     width: 70%;
@@ -7,10 +12,130 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    text-align: center;
+    padding-top: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.3rem;
+
+}
+
+#contentCards {
+    position: relative;
+    width: 100%;
+    gap: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.cardWrapper {
+    height: 5rem;
+    position: relative;
+    perspective: 700px;
+    perspective-origin: bottom;
+}
+
+
+.cardwrapper:hover .card{
+    transform: rotateY(180deg);
+}
+
+.cardGen{
+    width: 30%;
 }
 
 .card {
-    width: 10rem;
-    height: 15rem;
-    background-color: aqua;
+    position:relative;
+    height: 13rem;
+    transform-style: preserve-3d;
+    transition: 0.8s cubic-bezier(0.62,0,0.55,1);
+    font-family: Arial, Helvetica, sans-serif;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+
+}
+
+
+
+.cardFront, .cardBack{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 30px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    font-size: 2rem;
+}
+
+.cardFront{
+    background-color: #3b38be;
+    border: 2px solid #ccc;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardBack{
+    background-color: #3b38be;
+    border: 2px solid #ccc;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotateY(180deg);
+}
+
+.contentCards {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.header span {
+    content: " ";
+}
+
+.cross {
+    cursor: pointer;
+}
+
+.cross span {
+    width: 100%;
+    height: 4px;
+    border-radius: 12px;
+    display: block;
+}
+
+.cross span::before,
+.cross span::after {
+    content: "";
+    width: 30px;
+    background-color: black;
+    display: block;
+    border-radius: 12px;
+    height: 4px;
+}
+
+.cross span::before {
+    transform: translateY(-10px);
+    transform: rotate(45deg);
+}
+
+.cross span::after {
+    transform: translateY(10px);
+    transform: rotate(-45deg);
+    margin-top: -4px;
+
 }
