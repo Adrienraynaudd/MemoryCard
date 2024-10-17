@@ -1,7 +1,7 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { VisibilityPopupService } from '../services/visibilityPopup/visibility-popup.service';
 import { CommonModule } from '@angular/common';
-import { CardsService } from '../services/cards/cards.service';
+import { CardService } from '../Service/card.service';
 
 @Component({
   selector: 'app-popup-folder',
@@ -16,7 +16,7 @@ export class PopupFolderComponent implements OnInit {
   constructor(
     private visibilityPopupService: VisibilityPopupService,
     private renderer: Renderer2,
-    private CardsService: CardsService
+    private CardsService: CardService
   ) {}
 
   ngOnInit() {
@@ -39,7 +39,7 @@ export class PopupFolderComponent implements OnInit {
   }
 
   recupCards() {
-    this.CardsService.getAllCards().subscribe((data) => {
+    this.CardsService.getCards().subscribe((data) => {
       console.log(data);
     });
   }
