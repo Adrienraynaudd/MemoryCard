@@ -29,7 +29,7 @@
       </li>
     </ul>
   </aside>
-    <app-add-card></app-add-card>
+
   <div class="filters-section">
     <div class="filters">
       <input
@@ -68,7 +68,7 @@
           <button class="like-button" (click)="likeFolder(folder)">
             <i
               class="fas fa-heart"
-              
+              [style.color]="getHeartColor(folder)"
             ></i>
           </button>
           <button class="delete-button" (click)="deleteFolder(folder)">

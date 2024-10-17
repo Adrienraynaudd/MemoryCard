@@ -113,7 +113,7 @@ exports.deleteUserById = async (req, res) => {
       if (!passwordMatch) {
         return res.status(401).json({ message: 'Mot de passe incorrect' });
       }
-      const token = jwt.sign({ userId: user.id, username: user.username }, 'TjPJIv2wnVUdflrb', { expiresIn: '1h' });
+      const token = jwt.sign({ userId: user.id, username: user.username }, 'TjPJIv2wnVUdflrb');
   
       res.status(200).json({ user, token });
     } catch (error) {
@@ -144,16 +144,15 @@ exports.deleteUserById = async (req, res) => {
       }
   
       // Vérifiez si le dossier est déjà dans les favoris
-      if (user.FavoriteFolder.includes(folder)) {
+      if (user.FavoriteFolder.find(f => typeof f === 'object' ? f.id === folderId : f === folderId)) {
         return res.status(400).json({ message: 'Le dossier est déjà dans les favoris' });
       }
   
       // Ajoutez le dossier aux favoris
       console.log('Dossier à ajouter aux favoris:', folder);
       if (folder && folder.id) {
-        user.FavoriteFolder.push(folder.id); // Assurez-vous d'utiliser l'ID ici
+        user.FavoriteFolder.push(folder.id);
         await user.save();
-        
         res.status(200).json({ message: 'Dossier ajouté aux favoris' });
       } else {
         res.status(400).json({ message: 'Dossier non valide' });
@@ -163,3 +162,27 @@ exports.deleteUserById = async (req, res) => {
       res.status(500).json({ message: 'Erreur lors de l\'ajout du dossier aux favoris' });
     }
   };
+  exports.removeFolderIdFromFavorite = async (req, res) => {
+    try {
+      const userId = req.params.id || 'defaultId';
+      const  folderId  = req.params.folderId;
+      const user = await User.findOne({ id: userId }).populate('FavoriteFolder');
+      if (!user) {
+        return res.status(404).json({ message: 'Utilisateur non trouvé' });
+      }
+      console.log('Dossier à retirer des favoris:', user.FavoriteFolder);
+      console.log('ID du dossier à retirer des favoris:', folderId);
+      if (!user.FavoriteFolder.find(f => f === folderId)) {
+        return res.status(400).json({ message: 'Le dossier n\'est pas dans les favoris' });
+      }
+  
+      // Retirez le dossier des favoris
+      user.FavoriteFolder = user.FavoriteFolder.filter(f => f !== folderId);
+      await user.save();
+  
+      res.status(200).json({ message: 'Dossier retiré des favoris' });
+    } catch (error) {
+      console.error('Erreur lors de la suppression du dossier des favoris :', error);
+      res.status(500).json({ message: 'Erreur lors de la suppression du dossier des favoris' });
+    }
+  }

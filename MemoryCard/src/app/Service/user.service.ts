@@ -16,17 +16,18 @@ export class UserService {
     updateUser: "http://localhost:3000/api/users/:id",
     FavoriteFolders: "http://localhost:3000/api/users/FavoriteFolders/:id",
     AddFavoriteFolder: "http://localhost:3000/api/users/AddFavoriteFolder/:id",
+    DeleteFavoriteFolder: "http://localhost:3000/api/users/RemoveFavoriteFolder/:id",
   }
   private tokenKey = 'authToken';
   private userKey = 'authUser';
 public Token: String = '';
 
   constructor(private http: HttpClient) { }
-  async getfavoriteFolders(Token: String, userId: any): Promise<Folder[]> {
+  async getfavoriteFolders(Token: String, userId: any): Promise<string[]> {
     try{
       this.Token = Token;
       const headers = new HttpHeaders().set('Authorization', `Bearer ${Token}`);
-      const favFolders = await this.http.get<Folder[]>(`${this.apiUrl.FavoriteFolders.replace(':id', userId)}`, { headers }).toPromise();
+      const favFolders = await this.http.get<string[]>(`${this.apiUrl.FavoriteFolders.replace(':id', userId)}`, { headers }).toPromise();
       return favFolders || [];
     }catch (error) {
       console.error('Erreur lors de la récupération des dossiers favoris :', error);
@@ -36,12 +37,21 @@ public Token: String = '';
   addFavoriteFolder(userId: any, Token: string, folder: Folder): Observable<any> {
     try{
       const headers = new HttpHeaders().set('Authorization', `Bearer ${Token}`);
-      console.log('userId', folder);
       return this.http.post<Folder>(`${this.apiUrl.AddFavoriteFolder.replace(':id', userId.toString())}`, folder, { headers });
-      
     }
     catch (error) {
       console.error('Erreur lors de l\'ajout du dossier favori :', error);
+      return throwError(error);
+    }
+  }
+  deleteFavoriteFolder(userId: any, Token: string, folderId: string): Observable<any> {
+    try{
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${Token}`);
+      const options = { headers };
+      return this.http.post<Folder>(`${this.apiUrl.DeleteFavoriteFolder.replace(':id', userId.toString())}/${folderId}`, {}, options);
+    }
+    catch (error) {
+      console.error('Erreur lors de la suppression du dossier favori :', error);
       return throwError(error);
     }
   }

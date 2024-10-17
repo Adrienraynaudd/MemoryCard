@@ -10,5 +10,6 @@ router.delete('/:id', authenticateToken, userController.deleteUserById);
 router.post('/login', userController.getUserByEmailAndPassword);
 router.get('/FavoriteFolders/:id', authenticateToken,userController.getFavoriteFolders);
 router.post('/AddFavoriteFolder/:id', authenticateToken, userController.addFolderIdToFavorite);
+router.post('/RemoveFavoriteFolder/:id/:folderId', authenticateToken, userController.removeFolderIdFromFavorite);
 
 module.exports = router;

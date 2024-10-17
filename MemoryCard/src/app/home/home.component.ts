@@ -34,7 +34,7 @@ export class HomeComponent {
   selectedFilterType: string = 'Tag';
   folders: Folder[] = [];
   filteredFolders: Folder[] = [];
-  favoriteFolders: Folder[] = [];
+  favoriteFolders: string[] = [];
   selectFolderId: string = "";
 
   constructor(private VisibilityPopupService: VisibilityPopupService, private userService: UserService, private folderService: FolderService, private authService: AuthService) { }
@@ -63,6 +63,7 @@ async loadFolders() {
         if(token != null ){
 
           this.favoriteFolders = await this.userService.getfavoriteFolders(token,userId);
+          console.log('Dossiers favoris:', this.favoriteFolders);
         }
         this.folders = await this.folderService.getFolders();
         this.filteredFolders = [...this.folders];
@@ -111,29 +112,44 @@ async loadFolders() {
     });
   }
 
-  likeFolder(folder: Folder) {
-    console.log('Dossier favori:', folder);
+  async likeFolder(folder: Folder) {
+    const foundFolder = this.favoriteFolders.find(f =>  f === folder.id);
+    if (foundFolder) {
+      await this.deleteFolderFromFavorites(folder.id);
+      this.favoriteFolders = this.favoriteFolders.filter(f => f !== folder.id);
+        this.getHeartColor(folder);
+        console.log('Dossier retiré des favoris:', this.favoriteFolders);
+    } else {
+        this.addFolderToFavorites(folder);
+    }
+}
+
+addFolderToFavorites(folder: Folder) {
     if (typeof window !== 'undefined' && window.localStorage) {
-      const token = localStorage.getItem('authToken');
-      const user = localStorage.getItem('authUser');
-    var userId = user ? JSON.parse(user).id : null;
-    if(token != null && folder != null){
-    this.userService.addFavoriteFolder(userId, token, folder).subscribe(
-      response => {
-        console.log('Réponse de l\'API:', response);
-        // Traitez la réponse ici
-      },
-      error => {
-        console.error('Erreur lors de l\'appel à l\'API:', error);
-      }
-    );
-    }else{
-      console.error('Erreur lors de l\'ajout du dossier favori home.component.ts');
+        const token = localStorage.getItem('authToken');
+        const user = localStorage.getItem('authUser');
+        const userId = user ? JSON.parse(user).id : null;
+
+        if (token && folder) {
+            this.userService.addFavoriteFolder(userId, token, folder).subscribe(
+                response => {
+                    console.log('Réponse de l\'API:', response);
+                    this.favoriteFolders.push(folder.id);
+                    this.getHeartColor(folder);
+                    console.log('Dossier ajouté aux favoris:', this.favoriteFolders);
+                },
+                error => {
+                    console.error('Erreur lors de l\'appel à l\'API:', error);
+                }
+            );
+        } else {
+            console.error('Erreur lors de l\'ajout du dossier favori home.component.ts');
+        }
+    } else {
+        console.error('Erreur lors de l\'ajout du dossier favori home.component.ts');
     }
-    }else{
-      console.error('Erreur lors de l\'ajout du dossier favori home.component.ts');
-    }
-  }
+}
+
 
   deleteFolder(folder: any) {
     this.folders = this.folders.filter(f => f !== folder);
@@ -141,8 +157,11 @@ async loadFolders() {
     console.log('Dossier supprimé:', folder.name);
   }
 
-  getHeartColor(isFavorite: boolean): string {
-    return isFavorite ? 'red' : 'gray';
+  getHeartColor(folder: Folder): string {
+    if (this.favoriteFolders.find(f =>  f === folder.id)) {
+      return 'red';
+    }
+    return 'gray';
   }
   setVisibility(value: boolean) {
     this.VisibilityPopupService.setVisibility();
@@ -165,7 +184,28 @@ async loadFolders() {
     folder.id = this.selectFolderId;
     return folder.id;
   }
+  deleteFolderFromFavorites(folderId: string) {
+    if (typeof window !== 'undefined' && window.localStorage) {
+        const token = localStorage.getItem('authToken');
+        const user = localStorage.getItem('authUser');
+        const userId = user ? JSON.parse(user).id : null;
 
+        if (token && folderId) {
+            this.userService.deleteFavoriteFolder(userId, token, folderId).subscribe(
+                response => {
+                    console.log('Réponse de l\'API:', response);
+                },
+                error => {
+                    console.error('Erreur lors de l\'appel à l\'API:', error);
+                }
+            );
+        } else {
+            console.error('Erreur lors de la suppression du dossier favori home.component.ts');
+        }
+    } else {
+        console.error('Erreur lors de la suppression du dossier favori home.component.ts');
+    }
+  }
 
   selectFolder(folderId: string) {
     this.selectFolderId = folderId;
