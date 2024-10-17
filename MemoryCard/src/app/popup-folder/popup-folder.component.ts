@@ -1,7 +1,10 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2, Input } from '@angular/core';
 import { VisibilityPopupService } from '../services/visibilityPopup/visibility-popup.service';
 import { CommonModule } from '@angular/common';
+// import { Card } from '../interfaces/card';
 import { CardService } from '../Service/card.service';
+import { FolderService } from '../Service/folder.service';
+import { Card } from '../interfaces/card';
 
 @Component({
   selector: 'app-popup-folder',
@@ -13,18 +16,34 @@ import { CardService } from '../Service/card.service';
 export class PopupFolderComponent implements OnInit {
   visibility: boolean = false;
 
+  @Input() folderId!: number;
+  cards: Card[] = [];
+
   constructor(
     private visibilityPopupService: VisibilityPopupService,
     private renderer: Renderer2,
-    private CardsService: CardService
+    private cardService: CardService,
+    private folderService: FolderService
   ) {}
 
   ngOnInit() {
+    this.initializeVisibility();
+    this.loadCards();
+  }
+
+  initializeVisibility(): void {
     this.visibilityPopupService.getVisibility().subscribe((visibility) => {
       this.visibility = visibility;
       this.changeVisibility();
     });
-    this.recupCards();
+  }
+
+  async loadCards(): Promise<void> {
+    try {
+      this.cards = await this.cardService.getCards();
+    } catch (error) {
+      console.error('Erreur lors de la récupération des cards :', error);
+    }
   }
 
   changeVisibility(): void {
@@ -38,9 +57,15 @@ export class PopupFolderComponent implements OnInit {
     }
   }
 
-  recupCards() {
-    this.CardsService.getCards().subscribe((data) => {
-      console.log(data);
-    });
-  }
+  // getCards() {
+  //   this.cardService.getCards().subscribe((cards) => {
+  //     console.log(cards);
+  //   });
+  // }
+
+  // getFolders() {
+  //   this.folderService.getFolders().then((folders) => {
+  //     console.log(folders);
+  //   });
+  // }
 }

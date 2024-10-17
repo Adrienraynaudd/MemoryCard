@@ -1,5 +1,5 @@
 export interface Folder {
-    id: number;
+    _id: number;
     name: string;
     tags: [string];
     isFavorite: boolean;

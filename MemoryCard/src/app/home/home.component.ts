@@ -29,6 +29,7 @@ export class HomeComponent {
   selectedFilterType: string = 'Tag';
   folders: Folder[] = [];
   filteredFolders: Folder[] = [];
+  selectFolderId: number = 0;
 
   constructor(private VisibilityPopupService: VisibilityPopupService, private userService: UserService, private folderService: FolderService) { }
 
@@ -98,5 +99,11 @@ export class HomeComponent {
   }
   logout() {
     this.userService.logout();
+  }
+
+  getFolderId(folder: Folder): number {
+    console.log("l'id du dossier est:", folder._id);
+    folder._id = this.selectFolderId;
+    return folder._id;
   }
 }
