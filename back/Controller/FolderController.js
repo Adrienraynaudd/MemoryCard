@@ -2,10 +2,10 @@ const Folder = require('../Models/Folder');
 
 exports.createFolder = async (req, res) => {
   try {
-    const { name, tags, isFavorite, userId } = req.body;
+    const { title, tags, isFavorite, userId } = req.body;
 
     const newFolder = await Folder.create({
-      name: name,
+      title: title,
       tags: tags,
       isFavorite: isFavorite,
       userId: userId,
@@ -38,6 +38,20 @@ exports.getFolderById = async (req, res) => {
   } catch (error) {
     console.error('Erreur lors de la récupération d\'un dossier :', error);
     res.status(500).json({ message: 'Erreur lors de la récupération d\'un dossier' });
+  }
+};
+
+exports.getFoldersByUserId = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const folders = await Folder.find({ 'userId.userId': userId });
+    if (!folders || folders.length === 0) {
+      return res.status(404).json({ message: 'Aucun dossier trouvé pour cet utilisateur' });
+    }
+    res.status(200).json(folders);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des dossiers par userId :', error);
+    res.status(500).json({ message: 'Erreur lors de la récupération des dossiers par userId' });
   }
 };
 

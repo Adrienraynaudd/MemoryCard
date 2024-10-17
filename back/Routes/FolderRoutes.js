@@ -6,6 +6,7 @@ const authenticateToken = require('../Middleware/auth');
 router.post('/', authenticateToken, folderController.createFolder);
 router.get('/', authenticateToken, folderController.getAllFolder);
 router.get('/:id', authenticateToken, folderController.getFolderById);
+router.get('/user/:id', authenticateToken, folderController.getFoldersByUserId);
 router.delete('/:id', authenticateToken, folderController.deleteFolderById);
 
 module.exports = router;

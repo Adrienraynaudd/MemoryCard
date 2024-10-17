@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AddCardComponent } from '../add-card/add-card.component';
+
 
 @Component({
   selector: 'app-home',
@@ -11,7 +13,9 @@ import { FormsModule } from '@angular/forms';
     RouterLink,
     RouterLinkActive,
     CommonModule,
-    FormsModule
+    FormsModule,
+    AddCardComponent,
+
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
@@ -29,6 +33,16 @@ export class HomeComponent {
   ];
 
   filteredFolders = [...this.folders];
+  isPopupOpen = false;
+
+
+  openPopup(): void {
+    this.isPopupOpen = true;
+  }
+
+  closePopup(): void {
+    this.isPopupOpen = false;
+  }
 
   addFilter() {
     if (this.filterValue.trim()) {

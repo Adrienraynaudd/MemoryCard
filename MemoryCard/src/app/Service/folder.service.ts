@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Folder } from '../interfaces/folder';
 
@@ -11,12 +11,32 @@ export class FolderService {
 
     constructor(private http: HttpClient) { }
 
+    private getToken(): string | null {
+        if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+            return localStorage.getItem('token');
+        }
+        return null;
+    }
+
+    private getUser(): string | null {
+        if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+            return localStorage.getItem('userId');
+        }
+        return null;
+    }
+
     getFolders(): Observable<Folder[]> {
-        return this.http.get<Folder[]>(`${this.apiUrl}`);
+        const headers = new HttpHeaders().set('Authorization', `${this.getToken()}`);
+        return this.http.get<Folder[]>(`${this.apiUrl}`, { headers });
     }
 
     getFolderById(id: number): Observable<Folder> {
         return this.http.get<Folder>(`${this.apiUrl}/${id}`);
+    }
+
+    getFoldersByUserId(): Observable<Folder[]> {
+        const headers = new HttpHeaders().set('Authorization', `${this.getToken()}`);
+        return this.http.get<Folder[]>(`${this.apiUrl}/user/${this.getUser()}`, { headers });
     }
 
     createFolder(folder: Folder): Observable<Folder> {

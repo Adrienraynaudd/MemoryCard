@@ -4,7 +4,7 @@ const Card = require('../Models/Card');
 exports.createCard = async (req, res) => {
   try {
     const { question, response, userId, folderId} = req.body;
-
+    console.log(req.body);
     const newCard = await Card.create({
       question: question,
       response: response,

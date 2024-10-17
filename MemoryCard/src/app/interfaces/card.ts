@@ -1,7 +1,7 @@
 export interface Card {
-    id: number;
+    _id: number;
     question: string;
     response: string;
-    userId: number;
-    folderId: number;
+    userId: { userId: string };
+    folderId: { folderId: string };
 }
