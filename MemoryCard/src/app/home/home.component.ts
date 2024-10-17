@@ -36,6 +36,7 @@ export class HomeComponent {
   filteredFolders: Folder[] = [];
   favoriteFolders: string[] = [];
   selectFolderId: string = "";
+  UserId: string = "";
 
   constructor(private VisibilityPopupService: VisibilityPopupService, private userService: UserService, private folderService: FolderService, private authService: AuthService) { }
 
@@ -56,10 +57,8 @@ async loadFolders() {
       if (typeof window !== 'undefined' && window.localStorage) {
         const token = localStorage.getItem('authToken');
         const user = localStorage.getItem('authUser');
-        if(user != null)
-        {console.log('Token:', JSON.parse(user).FavoriteFolder);}
-         
         var userId = user ? JSON.parse(user).id : null;
+        this.UserId = userId;
         if(token != null ){
 
           this.favoriteFolders = await this.userService.getfavoriteFolders(token,userId);
