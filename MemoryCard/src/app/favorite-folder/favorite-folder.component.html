@@ -1,1 +1,34 @@
-<p>favorite-folder works!</p>
+<router-outlet></router-outlet>
+<div class="favorites-container">
+    <h1>Favorite Folders</h1>
+  
+    <!-- Button to navigate back to home -->
+    <div class="back-home-button">
+      <a routerLink="/home" class="back-button">Back to Home</a>
+    </div>
+  
+    <!-- Display favorite folders -->
+    <div class="folder-list" *ngIf="favoriteFolders.length > 0; else noFavoritesTemplate">
+      <div class="folder-item" *ngFor="let folder of favoriteFolders" (click)="selectFolder(folder.id)">
+        <div class="folder-info">
+          <h3 class="folder-name">Title: {{ folder.title }}</h3>
+          <div class="tags">
+            <span class="tag" *ngFor="let tag of folder.tags">{{ tag }}</span>
+          </div>
+        </div>
+  
+        <div class="actions">
+          <button class="like-button" (click)="toggleFavorite(folder)">
+            <i class="fas fa-heart" [style.color]="getHeartColor(folder)"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Template when there are no favorites -->
+    <ng-template #noFavoritesTemplate>
+      <p>No favorite folders yet.</p>
+    </ng-template>
+    <app-popup-folder [folderId]="selectFolderId"></app-popup-folder>
+  </div>
+  

@@ -37,10 +37,11 @@ export class HomeComponent {
   favoriteFolders: string[] = [];
   selectFolderId: string = "";
   UserId: string = "";
-
+  isPopupOpen: boolean = false;
   constructor(private VisibilityPopupService: VisibilityPopupService, private userService: UserService, private folderService: FolderService, private authService: AuthService) { }
 
   ngOnInit() {
+    this.isPopupOpen = false;
     this.authService.checkAuth();
     if (this.authService.checkAuth()) {
         this.loadFolders();
@@ -71,7 +72,7 @@ async loadFolders() {
         console.error('Erreur lors de la récupération des dossiers :', error);
     }
 }
-  isPopupOpen = false;
+
 
 
   openPopup(): void {
