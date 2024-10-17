@@ -31,23 +31,15 @@ export class HomeComponent {
   filteredFolders: Folder[] = [];
 
   constructor(private VisibilityPopupService: VisibilityPopupService, private userService: UserService, private folderService: FolderService) { }
-/*ngOnInit() {
-        this.userService.isAuthenticated$.subscribe(isAuthenticated => {
-            // Mettre à jour l'interface utilisateur ici
-        });
-    }*/
+
   async ngOnInit() {
-    if (this.userService.isLoggedIn()) {
-        try {
-            this.folders = await this.folderService.getFolders();
-            this.filteredFolders = [...this.folders];
-        } catch (error) {
-            console.error('Erreur lors de la récupération des dossiers :', error);
-        }
-    } else {
-        console.warn('Utilisateur non connecté. Rediriger vers la page de connexion.');
+    try {
+        this.folders = await this.folderService.getFolders();
+        this.filteredFolders = [...this.folders];
+      } catch (error) {
+        console.error('Erreur lors de la récupération des dossiers :', error);
     }
-}
+  }
 
   addFilter() {
     if (this.filterValue.trim()) {

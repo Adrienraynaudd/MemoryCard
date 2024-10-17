@@ -13,17 +13,8 @@ export class FolderService {
     constructor(private http: HttpClient, private userService: UserService) { }
 
     async getFolders(): Promise<Folder[]> {
-        const token = this.userService.getToken();
-        if (!token) {
-          console.error('Aucun token trouvé');
-          return [];
-        }
-        const headers = new HttpHeaders({
-          'Authorization': `Bearer ${token}`  // Ajoute le token dans l'en-tête Authorization
-        });
-      
         try {
-          const folders = await this.http.get<Folder[]>(this.apiUrl, { headers }).toPromise();
+          const folders = await this.http.get<Folder[]>(this.apiUrl).toPromise();
           return folders || [];
         } catch (error) {
           console.error('Erreur lors de la récupération des dossiers :', error);
