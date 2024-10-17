@@ -40,7 +40,7 @@ export class UserService {
   }
   getToken(): string | null {
     if (typeof window !== 'undefined' && window.localStorage) {
-      return localStorage.getItem(this.tokenKey); 
+      return localStorage.getItem(this.tokenKey);
     }
     return null;
   }
