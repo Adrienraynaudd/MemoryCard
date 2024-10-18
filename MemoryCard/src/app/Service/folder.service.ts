@@ -47,6 +47,7 @@ export class FolderService {
     }
 
     createFolder(folder: Folder): Observable<Folder> {
+        console.log('Folder:', folder);
         const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
         return this.http.post<Folder>(`${this.apiUrl}/`, folder, {headers});
     }

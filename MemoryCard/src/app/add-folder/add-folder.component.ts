@@ -46,7 +46,7 @@ export class AddFolderComponent {
     if (this.folderForm.valid && this.tags.length > 0) {
       const folder = this.folderForm.value;
       folder.tags = this.tags; 
-      folder.userId = { userId: this.userId };
+      folder.userId = this.userId ;
 
       this.folderService.createFolder(folder).subscribe({
         next: (response) => {

@@ -47,7 +47,7 @@ export class AddCardComponent implements OnInit {
       this.folderService.getFoldersByUserId().subscribe({
         next: (folders) => {
           this.folders = folders;
-        },    
+        },
         error: (err) => {
           this.errorMessage = 'Erreur lors du chargement des dossiers';
         }
@@ -63,8 +63,8 @@ export class AddCardComponent implements OnInit {
   onSubmit(): void {
     if (this.cardForm.valid) {
       const card = this.cardForm.value;
-      card.userId = { userId: this.userId };
-      card.folderId = { folderId: this.cardForm.get('folderId')?.value };
+      card.userId = this.userId ;
+      card.folderId = this.cardForm.get('folderId')?.value;
   
       this.cardService.createCard(card).subscribe({
         next: (response) => {
