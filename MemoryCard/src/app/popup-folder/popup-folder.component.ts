@@ -20,24 +20,26 @@ import { Card } from '../interfaces/card';
   styleUrl: './popup-folder.component.css',
 })
 export class PopupFolderComponent implements OnInit, OnChanges {
-  @Input() folderId!: string;
-  visibility: boolean = false;
-  cards: Card[] = [];
-  filteredCards: Card[] = [];
+  @Input() folderId!: string; // ID du dossier sélectionné
+  visibility: boolean = false; // Indicateur de visibilité du popup
+  cards: Card[] = []; // Liste de toutes les cartes
+  filteredCards: Card[] = []; // Liste des cartes filtrées par dossier
 
   constructor(
-    private visibilityPopupService: VisibilityPopupService,
-    private renderer: Renderer2,
-    private cardService: CardService,
-    private folderService: FolderService
+    private visibilityPopupService: VisibilityPopupService, // Service pour gérer la visibilité des popups
+    private renderer: Renderer2, // Service pour manipuler le DOM
+    private cardService: CardService, // Service pour gérer les cartes
+    private folderService: FolderService // Service pour gérer les dossiers
   ) {}
 
   ngOnInit() {
+    // Initialise la visibilité et charge les cartes lors de l'initialisation du composant
     this.initializeVisibility();
     this.loadCards();
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    // Filtre les cartes lorsque l'ID du dossier change
     if (changes['folderId']) {
       console.log('folderId changed:', this.folderId);
       this.filterCards();
@@ -45,6 +47,7 @@ export class PopupFolderComponent implements OnInit, OnChanges {
   }
 
   initializeVisibility(): void {
+    // Initialise la visibilité du popup en s'abonnant au service de visibilité
     this.visibilityPopupService.getVisibility().subscribe((visibility) => {
       this.visibility = visibility;
       this.changeVisibility();
@@ -52,6 +55,7 @@ export class PopupFolderComponent implements OnInit, OnChanges {
   }
 
   async loadCards(): Promise<void> {
+    // Charge les cartes depuis le service de cartes
     try {
       this.cardService.getCards().subscribe(
         (cards) => {
@@ -67,15 +71,18 @@ export class PopupFolderComponent implements OnInit, OnChanges {
       console.error('Erreur lors de la récupération des cards :', error);
     }
   }
+
   filterCards(): void {
+    // Filtre les cartes en fonction de l'ID du dossier
     console.log('Filtering cards with folderId:', this.folderId);
     this.filteredCards = this.cards.filter(
       (card) => card.folderId === this.folderId 
     );
-    
     console.log('Filtered cards:', this.filteredCards);
   }
+
   changeVisibility(): void {
+    // Change la visibilité du popup en fonction de l'état de visibilité
     const element = this.renderer.selectRootElement('#listAllCards', true);
     if (element) {
       this.renderer.setStyle(
@@ -87,6 +94,7 @@ export class PopupFolderComponent implements OnInit, OnChanges {
   }
 
   changeVisibilityPopup(): void {
+    // Change la visibilité du popup manuellement
     const element = this.renderer.selectRootElement('#listAllCards', true);
     if (element) {
       this.renderer.setStyle(

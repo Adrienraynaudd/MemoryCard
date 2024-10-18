@@ -11,19 +11,21 @@ import { FolderService } from '../Service/folder.service';
   styleUrls: ['./add-folder.component.css']
 })
 export class AddFolderComponent {
-  folderForm!: FormGroup;
-  tags: string[] = [];
-  userId: string | null = null;
-  errorMessage: string = '';
-  @Output() folderAdded = new EventEmitter<void>();
+  folderForm!: FormGroup; // Formulaire pour ajouter un dossier
+  tags: string[] = []; // Liste des tags
+  userId: string | null = null; // ID de l'utilisateur
+  errorMessage: string = ''; // Message d'erreur
+  @Output() folderAdded = new EventEmitter<void>(); // Événement émis lorsque le dossier est ajouté
 
   constructor(private fb: FormBuilder, private folderService: FolderService) {
+    // Récupère l'utilisateur authentifié depuis le localStorage
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
       const user = localStorage.getItem('authUser');
-       this.userId = user ? JSON.parse(user).id : null;
+      this.userId = user ? JSON.parse(user).id : null;
 
       console.log('userId:', this.userId);
     }
+    // Initialise le formulaire avec des validateurs
     this.folderForm = this.fb.group({
       title: ['', Validators.required],
       userId: [this.userId, Validators.required],
@@ -31,6 +33,7 @@ export class AddFolderComponent {
   }
 
   addTag(tagInput: HTMLInputElement): void {
+    // Ajoute un tag à la liste des tags
     const tagValue = tagInput.value.trim();
     if (tagValue) {
       this.tags.push(tagValue);
@@ -39,21 +42,23 @@ export class AddFolderComponent {
   }
 
   removeTag(index: number): void {
+    // Supprime un tag de la liste des tags
     this.tags.splice(index, 1);
   }
 
   onSubmit(): void {
+    // Soumet le formulaire pour créer un nouveau dossier
     if (this.folderForm.valid && this.tags.length > 0) {
       const folder = this.folderForm.value;
-      folder.tags = this.tags; 
-      folder.userId = this.userId ;
+      folder.tags = this.tags;
+      folder.userId = this.userId;
 
       this.folderService.createFolder(folder).subscribe({
         next: (response) => {
           console.log('Folder created successfully:', response);
           this.folderForm.reset();
           this.tags = [];
-          this.folderAdded.emit();
+          this.folderAdded.emit(); // Émet l'événement pour indiquer que le dossier a été ajouté
         },
         error: (err) => {
           this.errorMessage = 'Erreur lors de la création du dossier';
