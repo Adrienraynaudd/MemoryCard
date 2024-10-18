@@ -11,7 +11,7 @@
     <button type="button" (click)="addTag(tagInput)">+</button>
   </div>
 
-  <div>
+  <div class="allTag">
     <ul>
       <li *ngFor="let tag of tags; let i = index">
         {{ tag }} <button type="button" (click)="removeTag(i)">Remove</button>

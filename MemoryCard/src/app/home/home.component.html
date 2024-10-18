@@ -2,9 +2,12 @@
 
 <div class="home-container">
   <!-- Afficher Connexion et Enregistrement si non connecté, ou Profil et Déconnexion si connecté -->
-  <div class="auth-links" *ngIf="!isLoggedIn(); else loggedInTemplate">
-    <a href="/login" class="auth-link">Connexion</a>
-    <a href="/register" class="auth-link">Enregistrement</a>
+  <div
+    class="auth-links noConnect"
+    *ngIf="!isLoggedIn(); else loggedInTemplate"
+  >
+    <a href="/login" class="auth-link login">Connexion</a>
+    <a href="/register" class="auth-link register">Enregistrement</a>
   </div>
 
   <!-- Template pour l'utilisateur connecté -->
@@ -13,20 +16,18 @@
       <a routerLink="/user-edit" class="auth-link profil">
         <i class="fas fa-user"></i> Profil
       </a>
-      <a (click)="logout()" class="auth-link">Déconnexion</a>
+      <a (click)="logout()" class="auth-link deconnexion">Déconnexion</a>
+      <div class="new-card-button-container newCard">
+        <button class="new-card-button">
+          <a href="/addCardComponent">Nouvelle carte</a>
+        </button>
+      </div>
+      <a href="/favorite-folder" class="favorite-folder-link favoriteFolder">Favorite Folders</a>
     </div>
+
+
   </ng-template>
-  <div class="new-card-button-container">
-    <button class="new-card-button">
-      <a href="/addCardComponent">Nouvelle carte</a>
-    </button>
-  </div>
-  <a href="/favorite-folder" class="favorite-folder-link">Favorite Folders</a>
-  <div class="new-card-button-container">
-    <button class="new-card-button">
-      <a href="/addCardComponent">Nouvelle carte</a>
-    </button>
-  </div>
+
   <!-- Rest of your filters and folders -->
 
   <div class="filters-section">
@@ -63,11 +64,7 @@
         </ul>
       </aside>
       <div class="contentAllItem">
-        <div
-          class="folder-item"
-          *ngFor="let folder of filteredFolders"
-          
-        >
+        <div class="folder-item" *ngFor="let folder of filteredFolders">
           <div class="folder-info" (click)="selectFolder(folder.id)">
             <h3 class="folder-name">{{ folder.title }}</h3>
             <div class="tags">
@@ -77,10 +74,7 @@
 
           <div class="actions">
             <button class="like-button" (click)="likeFolder(folder)">
-              <i
-                class="fas fa-heart"
-                [style.color]="getHeartColor(folder)"
-              ></i>
+              <i class="fas fa-heart" [style.color]="getHeartColor(folder)"></i>
             </button>
             <button class="delete-button" (click)="deleteFolder(folder)">
               <i class="fas fa-trash-alt"></i>
