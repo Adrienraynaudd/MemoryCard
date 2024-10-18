@@ -11,7 +11,8 @@ exports.createUser = async (req, res) => {
   try {
     const { username, email, password, school, city,FavoriteFolder } = req.body;
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    var trimpassword = password.trim();
+    const hashedPassword = await bcrypt.hash(trimpassword, 10);
     const newUser = await User.create({
       id: uuidv4(),
       username: username,
@@ -49,7 +50,8 @@ exports.updateUserById = async (req, res) => {
 
       let hashedPassword;
       if (password) {
-          hashedPassword = await bcrypt.hash(password, 10);
+        var trimpassword = password.trim();
+        const hashedPassword = await bcrypt.hash(trimpassword, 10);
       }
 
       // Prepare the update object
@@ -109,7 +111,10 @@ exports.deleteUserById = async (req, res) => {
       if (!user) {
         return res.status(404).json({ message: 'Utilisateur non trouvé' });
       }
-      const passwordMatch = await bcrypt.compare(password, user.password);
+      console.log('Utilisateur trouvé:', user);
+      console.log('Mot de passe fourni:', password);
+      var trimpassword = password.trim();
+      const passwordMatch = await bcrypt.compare(trimpassword, user.password);
   
       if (!passwordMatch) {
         return res.status(500).json({ message: 'Mot de passe incorrect' });

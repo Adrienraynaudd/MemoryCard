@@ -20,7 +20,9 @@ export class AddFolderComponent {
   constructor(private fb: FormBuilder, private folderService: FolderService) {
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
       const user = localStorage.getItem('authUser');
-      this.userId = user ? JSON.parse(user).id : null;
+       this.userId = user ? JSON.parse(user).id : null;
+
+      console.log('userId:', this.userId);
     }
     this.folderForm = this.fb.group({
       title: ['', Validators.required],
@@ -44,7 +46,7 @@ export class AddFolderComponent {
     if (this.folderForm.valid && this.tags.length > 0) {
       const folder = this.folderForm.value;
       folder.tags = this.tags; 
-      folder.userId = this.userId;
+      folder.userId = { userId: this.userId };
 
       this.folderService.createFolder(folder).subscribe({
         next: (response) => {
@@ -62,4 +64,3 @@ export class AddFolderComponent {
     }
   }
 }
-
