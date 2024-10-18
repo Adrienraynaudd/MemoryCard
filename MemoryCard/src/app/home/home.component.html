@@ -76,7 +76,7 @@
             <button class="like-button" (click)="likeFolder(folder)">
               <i class="fas fa-heart" [style.color]="getHeartColor(folder)"></i>
             </button>
-            <button class="delete-button" (click)="deleteFolder(folder)">
+            <button class="delete-button" *ngIf="folder.userId === UserId" (click)="deleteFolder(folder)">
               <i class="fas fa-trash-alt"></i>
             </button>
           </div>

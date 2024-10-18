@@ -144,6 +144,7 @@ export class HomeComponent {
       const token = localStorage.getItem('authToken');
       const user = localStorage.getItem('authUser');
       const userId = user ? JSON.parse(user).id : null;
+      console.log('userId:', userId);
 
       if (token && folder) {
         this.userService.addFavoriteFolder(userId, token, folder).subscribe(
