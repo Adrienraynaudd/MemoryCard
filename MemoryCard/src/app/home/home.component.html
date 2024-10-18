@@ -9,8 +9,8 @@
 
   <!-- Template pour l'utilisateur connecté -->
   <ng-template #loggedInTemplate>
-    <div class="auth-links">
-      <a routerLink="/user-edit" class="auth-link">
+    <div class="auth-links connect">
+      <a routerLink="/user-edit" class="auth-link profil">
         <i class="fas fa-user"></i> Profil
       </a>
       <a (click)="logout()" class="auth-link">Déconnexion</a>
@@ -24,17 +24,7 @@
   <a href="/favorite-folder" class="favorite-folder-link">Favorite Folders</a>
 
   <!-- Rest of your filters and folders -->
-  <aside class="filters-added">
-    <h3>Filtres ajoutés</h3>
-    <ul>
-      <li *ngFor="let filter of appliedFilters; let i = index">
-        {{ filter }}
-        <button class="delete-filter-button" (click)="removeFilter(i)">
-          <i class="fas fa-trash-alt"></i>
-        </button>
-      </li>
-    </ul>
-  </aside>
+
   <div class="filters-section">
     <div class="filters">
       <input
@@ -57,28 +47,41 @@
     </div>
 
     <div class="folder-list">
-      <div
-        class="folder-item"
-        *ngFor="let folder of filteredFolders"
-        (click)="selectFolder(folder.id)"
-      >
-        <div class="folder-info">
-          <h3 class="folder-name">titre : {{ folder.title }}</h3>
-          <div class="tags">
-            <span class="tag" *ngFor="let tag of folder.tags">{{ tag }}</span>
+      <aside class="filters-added">
+        <h3>Filtres ajoutés</h3>
+        <ul>
+          <li *ngFor="let filter of filteredFolders; let i = index">
+            {{ filter }}
+            <button class="delete-filter-button" (click)="removeFilter(i)">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </li>
+        </ul>
+      </aside>
+      <div class="contentAllItem">
+        <div
+          class="folder-item"
+          *ngFor="let folder of folders"
+          
+        >
+          <div class="folder-info" (click)="selectFolder(folder.id)">
+            <h3 class="folder-name">{{ folder.title }}</h3>
+            <div class="tags">
+              <span class="tag" *ngFor="let tag of folder.tags">{{ tag }}</span>
+            </div>
           </div>
-        </div>
 
-        <div class="actions">
-          <button class="like-button" *ngIf="UserId != null"  (click)="likeFolder(folder)">
-            <i
-              class="fas fa-heart"
-              [style.color]="getHeartColor(folder)"
-            ></i>
-          </button>
-          <button class="delete-button" *ngIf="folder.userId === UserId" (click)="deleteFolder(folder)">
-            <i class="fas fa-trash-alt"></i>
-          </button>
+          <div class="actions">
+            <button class="like-button" (click)="likeFolder(folder)">
+              <i
+                class="fas fa-heart"
+                [style.color]="getHeartColor(folder)"
+              ></i>
+            </button>
+            <button class="delete-button" (click)="deleteFolder(folder)">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
