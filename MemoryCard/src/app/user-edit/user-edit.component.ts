@@ -26,8 +26,8 @@ export class UserEditComponent implements OnInit {
   ) {
     this.profileForm = this.fb.group({
       username: ['', Validators.required],
-      city: ['', Validators.required],
-      school: ['', Validators.required]
+      city: [''],
+      school: ['']
     });
   }
 
@@ -36,10 +36,12 @@ export class UserEditComponent implements OnInit {
   }
 
   loadUserProfile(): void {
+    if(typeof window !== 'undefined' && window.localStorage) {
     const user = localStorage.getItem('authUser');
     var userId = user ? JSON.parse(user).id : null;
     if (userId && user !=null) {
           this.user = JSON.parse(user) as User;
+          console.log('User:', this.user);
           this.profileForm.patchValue({
             username: this.user.username,
             city: this.user.city,
@@ -47,18 +49,22 @@ export class UserEditComponent implements OnInit {
           });
       };
     }
-
+  }
   onSubmit(): void {
     if (this.profileForm.valid) {
+      console.log('Profile form is valid');
       const updatedUser: User = {
         ...this.user, // Keep the current user's data (id, email, etc.)
         ...this.profileForm.value // Override with updated form values
       };
-
+      console.log('Updated user:', updatedUser);
       this.userService.updateUser(updatedUser).subscribe({
         next: () => {
           console.log('Profile updated successfully');
+          if (typeof window !== 'undefined' && window.localStorage) {
+            localStorage.setItem('authUser', JSON.stringify(updatedUser));
           this.router.navigate(['/home']);
+          }
         },
         error: (error) => {
           this.errorMessage = 'Erreur lors de la mise à jour du profil';

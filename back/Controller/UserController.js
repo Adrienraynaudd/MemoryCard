@@ -112,7 +112,7 @@ exports.deleteUserById = async (req, res) => {
       const passwordMatch = await bcrypt.compare(password, user.password);
   
       if (!passwordMatch) {
-        return res.status(401).json({ message: 'Mot de passe incorrect' });
+        return res.status(500).json({ message: 'Mot de passe incorrect' });
       }
       const token = jwt.sign({ userId: user.id, username: user.username }, 'TjPJIv2wnVUdflrb');
   

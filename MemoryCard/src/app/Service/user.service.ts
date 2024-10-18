@@ -61,10 +61,12 @@ public Token: String = '';
   }
 
   login(user: User): Observable<any> {
+    console.log('user:', user);
     return this.http.post(this.apiUrl.login, user);
   }
 
   updateUser(user: User): Observable<any> {
+    console.log('user:', user);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
     if (user.id) {
       return this.http.put(this.apiUrl.updateUser.replace(':id', user.id.toString()), user, { headers });
