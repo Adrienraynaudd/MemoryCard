@@ -4,7 +4,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { UserService } from '../Service/user.service';
 import { FolderService } from '../Service/folder.service';
 import { Folder } from '../interfaces/folder';
-import { VisibilityPopupService } from '../services/visibilityPopup/visibility-popup.service';
+import { VisibilityPopupService } from '../Service/visibilityPopup/visibility-popup.service';
 import { PopupFolderComponent } from "../popup-folder/popup-folder.component";
 @Component({
   selector: 'app-favorite-folder',

@@ -6,7 +6,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { VisibilityPopupService } from '../services/visibilityPopup/visibility-popup.service';
+import { VisibilityPopupService } from '../Service/visibilityPopup/visibility-popup.service';
 import { CommonModule } from '@angular/common';
 import { CardService } from '../Service/card.service';
 import { FolderService } from '../Service/folder.service';

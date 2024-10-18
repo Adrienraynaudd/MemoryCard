@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../Service/user.service';
 import { FolderService} from '../Service/folder.service';
-import { VisibilityPopupService } from '../services/visibilityPopup/visibility-popup.service';
+import { VisibilityPopupService } from '../Service/visibilityPopup/visibility-popup.service';
 import { PopupFolderComponent } from '../popup-folder/popup-folder.component';
 import { Folder } from '../interfaces/folder';
 import { AuthService } from '../Service/AuthService';
