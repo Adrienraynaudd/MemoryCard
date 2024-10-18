@@ -70,7 +70,7 @@ export class PopupFolderComponent implements OnInit, OnChanges {
   filterCards(): void {
     console.log('Filtering cards with folderId:', this.folderId);
     this.filteredCards = this.cards.filter(
-      (card) => card.folderId.folderId === this.folderId 
+      (card) => card.folderId === this.folderId 
     );
     
     console.log('Filtered cards:', this.filteredCards);

@@ -22,7 +22,11 @@
     </button>
   </div>
   <a href="/favorite-folder" class="favorite-folder-link">Favorite Folders</a>
-
+  <div class="new-card-button-container">
+    <button class="new-card-button">
+      <a href="/addCardComponent">Nouvelle carte</a>
+    </button>
+  </div>
   <!-- Rest of your filters and folders -->
 
   <div class="filters-section">
@@ -37,7 +41,7 @@
       <div class="customSelect">
         <select class="filter-select" [(ngModel)]="selectedFilterType">
           <option value="Tag">Tag</option>
-          <option value="Folder Name">Folder</option>
+          <option value="Folder Name">Nom du Ficher</option>
         </select>
       </div>
 
@@ -50,7 +54,7 @@
       <aside class="filters-added">
         <h3>Filtres ajoutés</h3>
         <ul>
-          <li *ngFor="let filter of filteredFolders; let i = index">
+          <li *ngFor="let filter of appliedFilters; let i = index">
             {{ filter }}
             <button class="delete-filter-button" (click)="removeFilter(i)">
               <i class="fas fa-trash-alt"></i>
@@ -61,7 +65,7 @@
       <div class="contentAllItem">
         <div
           class="folder-item"
-          *ngFor="let folder of folders"
+          *ngFor="let folder of filteredFolders"
           
         >
           <div class="folder-info" (click)="selectFolder(folder.id)">
